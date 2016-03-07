@@ -1,0 +1,168 @@
+---
+title: "Analyse the Finance and Stocks Price of Bookmakers"
+author: "[®γσ, Eng Lian Hu](http://englianhu.wordpress.com) <img src='figure/ShirotoNorimichi.jpg' width='24'> 白戸則道®"
+date: "3/6/2016"
+output:
+  html_document:
+  fig_caption: yes
+  fig_height: 3
+  fig_width: 5
+  highlight: haddock
+  theme: cerulean
+  toc: yes
+---
+
+```{r libs, message=FALSE, warning=FALSE, cache=TRUE, include=FALSE}
+## Setup Options, Loading Required Libraries and Preparing Environment
+## Loading the packages and setting adjustment
+suppressMessages(library('utils'))
+suppressMessages(source('function/libs.R'))
+```
+
+
+
+## Abtract
+
+  Gaming is a large and economically important industry. Much research focuses on understanding gambler behavior. For example, you can refer to my previous [Punters Account Review (Agenda).xlsx](https://www.dropbox.com/sh/ifwczokjptt6re0/AADv1VarJoQ6IgIitZBzG5c6a?dl=0&preview=Punters+Account+Review+(Agenda).xlsx). The purpose of the research paper is trying to analse and forecast the revenue and profit of bookmakers as well as market shares. I seperates the research paper into 2 sections which are related to revenue, profit and loss of an operator in gambling industry:
+  
+  - Analyse the revenue and profit of unnonymous bookmakers' products (due to confidential and privacy issue) in gambling market.
+  - Analyse the revenue and profit as well as the stocks price of Public Listed European bookmakers.
+
+```{r read-data-summary-table, echo=FALSE, results='asis'}
+## Read the datasets
+
+```
+
+  However, few studies consider investment behavior in the gaming industry, which as a regulated industry we may expect to see variances from norms established in the general finance literature. [6]*Howard Reed (2013)* describe the economics and the impact of fixed odds betting industry.
+
+
+
+## 1. Introduction
+
+  * [1.1 Introduction to Gaming Industry]
+  * [1.2 Introduction to Public Listed Sports Bookmakers]
+
+
+### 1.1 Introduction to Gaming Industry
+
+  [1]*Linda Canina, Steven A. Carvell, Qingzhong Ma and Andrey D. Ukhov (2013)* brief some points of previous papers as below. The study examines mergers and acquisition activity in the gaming industry in a comprehensive data set covering thirty years of transactions. The long time series allows us to capture both the times of economic expansions and recessions. An interesting and active market exists for corporate control in the
+gaming industry.
+  
+  - *Hong & Hochan (2005); Moss, Ryan & Wagoner (2003); Mowen, Fang & Scott (2009); Soane, Dewberry & Narendran (2010); Thaler & Johnson (1990); Vong (2008)* : Much research focuses on understanding gambler behavior.
+  - *Braunlich (1996); Chhabra (2007); Kwan & McCartney (2005); Smeral (1998)* : In terms of the impact of gaming externalities on local communities and the economy we see that this industry has unique characteristics.
+  - *Canina (1996)* : Considers IPO behavior in the gaming sector, but more work is needed in this area. The present paper extends the understanding of the gaming industry's investment behavior by studying the pricing of mergers and acquisition (M&A) transactions involving gaming companies or gaming assets.
+  - *Jang & Young (2009); Smith (2006)* : The economic significance of M&A transactions in the gaming industry is substantial, especially considering the 3063 deals announced from the beginning of 1980 through 2009, with a total target value of $916,358 million and an average target value of $299 million. Focusing on one industry rather than all-inclusive study is important to obtain industry-relevant results and managerial implications.
+  - *Collins, Holcomb, Certo, Hitt & Lester (2009); Huyghebaert & Luypaert (2010); Kobeissi, Xian & Haizhi (2010); Pablo (2009)* : Specifically, acquisitions along with IPO's are methods for investors to monetize their investments through the public and private markets. Acquisitions may bring many benefits, but at the same time they involve substantial risk. Firms can eliminate competitive threats or gain economies of scale or market power through mergers. Firms lacking growth may undertake acquisitions to increase their growth rates. Managers propose that the rationale for an acquisition is an increase in value derived from a variety of sources, such as economies of scale and/or scope from the combined organization and the elimination of poor managerial practice.One of the fundamental reasons why two firms combine their resources is to create value by pursuing these potential synergies between them.
+  - *Lees (2003)* : Points out that the lack of value creation is an unanswered question when it comes to M&A. Some blame it on paying too much for an M&A deal or overvaluing the synergy effects while others blame it on the integration process and the fact that those who are responsible for the implementation are often not involved in the previous stages before the deal is made.
+  - *Hayward & Hambrick (1997); Morck, Shleifer & Vishny (1990)* : Researchers also explore how characteristics of the target selection and negotiation processes can lead to overpayment for a target by an acquirer, dooming the transaction from the very start. Since the value and realization of potential synergies are directly influenced by the price paid for the target firm, the main objective of this paper is to evaluate the pricing of gaming assets. Since overpayment may prevent firms and their investors from realizing acquisition benefits in the gaming industry, correct valuation of the target is a key factor in the M&A process.
+  - *Lee & We (2009)* : Correct valuation is a fundamental criterion of a successful merger as in all investment decisions, as long as the net present value (NPV) of an investment is positive value is enhanced. The NPV is simply the difference between the post merger value of the integrated firm (VC) and the sum of the paid acquisition price for the target firm (PT) and the value of the acquiring firm prior to the merger (VA). This difference, the NPV represents the value of the realized synergy. The total synergy value of a merger may differ from the realized synergy due to differences between the acquisition price of the target and the stand alone value of the target (VT). Total synergy equals the difference between the combined firm value (VC) and the sum of each individual firm value (VT + VA) where VT and VA are the stand alone values of the target and acquirer, respectively. The value of this difference includes the acquirer's valuation of control as well as operating and financial synergies. If the price paid for the target (PT) is less than the standalone value of the target (VT) plus the value of the total synergy, then the NPV will be positive, value is created and the merger is successful. However, if the price exceeds VT plus the value of the total synergy, value is destroyed.
+
+  You might try to measure, value and forecast based on the datasets if any.
+
+
+### 1.2 Introduction to Public Listed Sports Bookmakers
+
+  The sports bookmakers divided into two categories, which are traditional bankers and exchange-firm. You can refer to [2]*Fabián Enrique Moya (2012)* for more information from similarity and difference between them.
+  
+  - [3]*Alper Ozgit (2005)* : The author compile and analyze a dataset of National Basketball Association (NBA) games and find that both odds and net returns on the leading betting exchange (Betfair) are consistently higher than that of the two leading bookmakers (William Hill and Ladbrokes). These results are puzzling, since the bookmakers continue to be profitable. "The bookie puzzle", the observation that bookies attract a lot of betting although better returns are available elsewhere is resolved through liquidity-based explanations. As the order size gets larger, the author find that:
+  
+    i)  The return differences vanish rapidly.
+    ii) Order flow migrates to the bookmakers, thereby justifying the presence of and the need for bookmakers.
+    
+  - [4]*NERA Economic Consulting (2014)* : The consultancy firm has analyse the financial report as well as the market shares of Ladbrokes PLC.
+  - [Soomla (Q4-2015) - *Mobile Gaming Data Report*](https://gallery.mailchimp.com/16ce1ff0bb24d9e70eb7b27eb/files/Soomla_2015_Q4_Mobile_Gaming_Data_Report.pdf) basically analyse the continental gamers for Android and iMac users as well as the gamers' consuming behaviour.
+  - [HM Revenue and Customs (2014) - *The UK betting and gaming market: estimating price elasticities of demand and understanding the use of promotions*](https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/322845/report313.pdf)
+
+
+## 2. Data
+
+  I get the financial data as well as the stocks price of few public listed companies for the research via `quantmod` r package. You can refer to [10]*Alberto González Paje (2013)* for further information.
+
+
+
+## 3. Shinyapp's Report
+
+  In order to easier to read the report, here I display the data report on shinyapps website. Please click the link to view the web-base report at []().
+
+**Draft**
+[get financial report](http://quant.stackexchange.com/questions/20642/original-fundamental-accounting-data-not-ratios)
+...
+...
+...
+
+
+
+## 4. Appendices
+
+  * [4.1 Documenting File Creation]
+  * [4.2 Versions' Log]
+  * [4.3 Speech and Blooper]
+  * [4.4 References]
+   
+   
+### 4.1 Documenting File Creation
+   
+  It's useful to record some information about how your file was created.
+   
+  * File creation date: 2016-03-06
+  * `r R.version.string`
+  * R version (short form): `r getRversion()`
+  * `rmarkdown` package version: `r packageVersion('rmarkdown')`
+  * File version: 1.0.0
+  * File latest updated date: `r Sys.Date()`
+  * Author Profile: [®γσ, Eng Lian Hu](https://rpubs.com/englianhu/ryoeng)
+  * GitHub: [Source Code](https://github.com/scibrokes/analyse-the-finance-and-stocks-price-of-bookmakers)
+  * Additional session information
+  
+```{r info, echo=FALSE, results='asis'}
+lubridate::now()
+devtools::session_info()$platform
+Sys.info()
+```
+   
+   
+### 4.2 Versions' Log
+   
+  - File version: 1.0.0
+  - file created
+  - ...
+  - File version: 1.0.1
+  - ...
+  - File version: 1.0.2 - *"2015-11-22 09:41:49 JST"*
+  - ...
+   
+   
+### 4.3 Speech and Blooper
+   
+  There are quite some errors when I **knit HTML**:
+     
+  * ...
+  * ...
+   
+   
+### 4.4 References
+
+####  Reference for industry knowdelege and academic research portion for the paper.
+
+  1) [Linda Canina, Steven A. Carvell, Qingzhong Ma and Andrey D. Ukhov (2013) - *Business Cycle and Asset Valuation in the Gaming Industry*](http://scholarship.sha.cornell.edu/cgi/viewcontent.cgi?article=1420&context=articles)
+  2) [Fabián Enrique Moya (2012) - *Statistical Methodology for Profitable Sports Gambling*](https://www.stat.sfu.ca/content/dam/sfu/stat/alumnitheses/2012/FabianMoyaFinalVersion.pdf)
+  3) [Alper Ozgit (2005) - *The Bookie Puzzle: Auction versus Dealer Markets in Online Sports Betting*](http://levine.sscnet.ucla.edu/archive/refs4782713000000000011.pdf)
+  4) [NERA Economic Consulting (2014) - *The Stake of the Nation - Balancing the Bookies*](http://fairergambling.org/wp-content/uploads/2014/04/nera-report-040414.pdf)
+  5) [Sports betting and advertising AGRC Discussion Paper (No4 November 2014) - *The growth of sports betting in Australia*](https://aifs.gov.au/agrc/publications/sports-betting-and-advertising/growth-sports-betting-australia)
+  6) [Howard Reed (2013) - *The Economic Impact of Fixed Odds Betting Terminals*](http://fairergambling.org/wp-content/uploads/2012/11/The-Economic-Impact-of-Fixed-Odds-Betting-Terminals.pdf)
+  7) [Ministry of Health Victoria, BC (2013) - *Lower the Stakes : A Public Health Approach to Gambling in British Columbia*](http://www2.gov.bc.ca/assets/gov/health/about-bc-s-health-care-system/office-of-the-provincial-health-officer/reports-publications/annual-reports/gambling-in-bc.pdf)
+  8) [Jeffrey A. Ryan (2008) - *Quantitative Financial Modelling & Trading Framework for R*](http://www.quantmod.com/examples/intro/)
+  9) [Jitender Aswani (2012) - *Pull Yahoo Finance Key-Statistics Instantaneously Using XML and XPath in R*](http://allthingsr.blogspot.my/2012/10/pull-yahoo-finance-key-statistics.html)
+  10) [Alberto González Paje (2013) - *Corporate financial performance using Quantmod*](http://www.ekonlab.com/r_tutorials/finance_data_quantmod/financia_performance.html)
+
+####  Reference for technical research on programming and coding portion for the paper.
+
+  6) [E-Commerce Retail Sales](https://datamarket.com/data/set/1kcw/e-commerce-retail-sales#!ds=1kcw&display=line)
+  7) 
+  8)  
+  9) 
+  10) 
+
+**Powered by - Copyright© Intellectual Property Rights of <img src='figure/oda-army.jpg' width='24'> [Scibrokes®](http://www.scibrokes.com)個人の経営企業**
+
+

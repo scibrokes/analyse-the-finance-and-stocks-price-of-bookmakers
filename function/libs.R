@@ -19,8 +19,7 @@ suppressMessages(library('BBmisc'))
 pkgs <- c('devtools', 'zoo', 'chron', 'stringr', 'reshape', 'reshape2', 'data.table', 'sparkline', 'stringdist',
           'DT', 'plyr', 'dplyr', 'purrr', 'magrittr', 'foreach', 'manipulate', 'ggplot2', 'PerformanceAnalytics',
           'highlightHTML', 'knitr', 'rmarkdown', 'scales', 'lubridate', 'tidyr', 'whisker', 'gtable', 'grid',
-          'plotly', 'doParallel', 'gridExtra', 'arules', 'arulesViz', 'googleVis')
-#'@ c('memoise', 'pander', 'parallel', 'sqldf', 'BiocParallel', 'RSelenium', 'doMC') #load if needed
+          'doParallel', 'gridExtra', 'googleVis', 'quantmod', 'TTR')
 suppressAll(lib(pkgs)); rm(pkgs)
 
 ## Creating a parallel computing Cluster and support functions.

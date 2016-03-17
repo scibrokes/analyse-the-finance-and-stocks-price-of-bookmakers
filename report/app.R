@@ -140,7 +140,12 @@ ui <- dashboardPage(
               h2('Widgets tab content')),
       # 5th tab content
       tabItem(tabName = 'file-pdf',
-              h2('Reference tab content')),
+              h2('Reference tab content'),
+              tabPanel("Help",
+                HTML('<iframe src=\"https://englianhu.files.wordpress.com/2016/03/financial-statements-a-step-by-step-guide-to-understanding-and-creating-financial-reports.pdf" 
+                         width=\"900\" height=\"600\"></iframe>')
+              ),
+              imageOutput("imp_pdf",width="500px",height="500px")),
       # 6th tab content
       tabItem(tabName = 'calendar',
               fluidRow(
@@ -216,6 +221,7 @@ server <- function(input, output) {
       )
     )
   })
+
 }
 
 shinyApp(ui, server)

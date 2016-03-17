@@ -5,7 +5,12 @@
 ## 
 ## Setup Options, Loading Required Libraries and Preparing Environment
 ## Loading the packages and setting adjustment
+suppressMessages(library('BBmisc'))
+pkgs <- c('shiny', 'shinythemes', 'shinyjs', 'shinyBS', 'shinydashboard', 'shinyAce', 'quantmod', 
+          'TTR', 'plyr', 'dplyr', 'stringr', 'purrr', 'googleCharts')
+suppressMessages(lib(pkgs))
 suppressMessages(source('libs.R'))
+rm(pkgs)
 
 ## Due to bwin-party and Betfair has M&A recently and close market for stocks trading, 
 ##  here I unable to get the data.

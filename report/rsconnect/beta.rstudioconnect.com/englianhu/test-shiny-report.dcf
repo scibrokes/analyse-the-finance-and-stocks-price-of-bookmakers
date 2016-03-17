@@ -1,0 +1,9 @@
+name: test-shiny-report
+account: englianhu
+server: beta.rstudioconnect.com
+appId: 647
+bundleId: 1126
+url: https://beta.rstudioconnect.com/englianhu/test-shiny-report/
+when: 1458227423.97182
+asMultiple: FALSE
+asStatic: FALSE

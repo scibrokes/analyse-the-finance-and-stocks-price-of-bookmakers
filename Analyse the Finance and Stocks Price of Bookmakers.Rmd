@@ -31,7 +31,7 @@ suppressMessages(source('function/libs.R'))
 
 ```{r read-data-summary-table, echo=FALSE, results='asis'}
 ## Read the datasets
-
+suppressMessages(source('function/stocks.R'))
 ```
 
   However, few studies consider investment behavior in the gaming industry, which as a regulated industry we may expect to see variances from norms established in the general finance literature. [6]*Howard Reed (2013)* describe the economics and the impact of fixed odds betting industry.
@@ -85,6 +85,9 @@ gaming industry.
 
   In order to easier to read the report, here I display the data report on shinyapps website. Please click the link to view the web-base report at `r HTML("<a href='http://www.google.com/webhp' target='_blank'><img align='right' alt='runApps' src='figure/runApps.jpg'/></a>")`.
   
+  You can also simply `shiny::runGitHub('scibrokes/report')` or `shiny::runApp('report')`.
+  
+  [財經開放數據平台Stock AI和R分析介面](http://success.wp.shu.edu.tw/1050323%EF%BC%9A%E8%B2%A1%E7%B6%93%E9%96%8B%E6%94%BE%E6%95%B8%E6%93%9A%E5%B9%B3%E5%8F%B0stock-ai%E5%92%8Cr%E5%88%86%E6%9E%90%E4%BB%8B%E9%9D%A2/)
   [12]*Financial Statements A Step-by-Step Guide to Understanding and Creating Financial Reports*...
 ...
 ...
@@ -163,6 +166,8 @@ Sys.info()
   10) [Alberto González Paje (2013) - *Corporate financial performance using Quantmod*](http://www.ekonlab.com/r_tutorials/finance_data_quantmod/financia_performance.html)
   11) [The R Trader - The R Trader Blog](http://www.thertrader.com/)
   12) [Financial Statements A Step-by-Step Guide to Understanding and Creating Financial Reports](https://englianhu.files.wordpress.com/2016/03/financial-statements-a-step-by-step-guide-to-understanding-and-creating-financial-reports.pdf)
+  13) [History of R Financial Time Series Plotting](https://timelyportfolio.github.io/rCharts_time_series/history.html)
+  14) [財經開放數據平台Stock AI和R分析介面](http://success.wp.shu.edu.tw/1050323%EF%BC%9A%E8%B2%A1%E7%B6%93%E9%96%8B%E6%94%BE%E6%95%B8%E6%93%9A%E5%B9%B3%E5%8F%B0stock-ai%E5%92%8Cr%E5%88%86%E6%9E%90%E4%BB%8B%E9%9D%A2/)
 
 ####  Reference for technical research on programming and coding portion for the paper.
 
@@ -181,6 +186,8 @@ Sys.info()
   25) [Building Shiny apps - an interactive tutorial](http://deanattali.com/blog/building-shiny-apps-tutorial/?utm_medium=referral&utm_source=zeef.com&utm_campaign=ZEEF)
   26) [The R Trader - The R Trader Blog](http://www.thertrader.com/)
   27) [ShinyApps: Experience Statistics](http://shinyapps.org/)
+  29) [Dekalog (2012) - *Unbelievable and Amazing R Shiny–Web Parameter Test in 1.5 Hours*](http://timelyportfolio.blogspot.my/2012/11/unbelievable-and-amazing-r-shinyweb.html)
+  30) [®Studio Shiny Tutorial - *LESSON 6: Use reactive expressions*](http://shiny.rstudio.com/tutorial/lesson6/)
 
 
 **Powered by - Copyright© Intellectual Property Rights of <img src='figure/oda-army.jpg' width='24'> [Scibrokes®](http://www.scibrokes.com)個人の経営企業**

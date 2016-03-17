@@ -102,17 +102,20 @@ server <- function(input, output) {
 shinyApp(ui, server)
 ```
 
+testing...
+
+
+
+testing candlestick charts...
+
 ```{r, echo=FALSE}
-library(shiny)
-library(shinydashboard)
+## Set the googleVis options first to change the behaviour of plot.gvis, so that only the chart 
+##  component of the HTML file is written into the output file.
+op <- options(gvis.plot.tag='chart')
 
-dbHeader <- dashboardHeader()
-dbHeader$children[[3]]$children <-  tags$a(href='http://mycompanyishere.com',
-                                           tags$img(src='figure/oda-army.jpg',height='20',width='20'))
-
-dashboardPage(
-       dbHeader,
-       dashboardSidebar(),
-       dashboardBody()
-)
+## Read the datasets
+suppressMessages(source('function/libs.R'))
+suppressMessages(source('function/stocks.R'))
+gvisCandlestickChart(comp[1:100,], xvar='Weekday', low='Low', open='Open', close='Close', high='High', options=list(legend='none', vAxes="[{title:'val1'}, {title:'val2'}]", colors="['#cbb69d', '#603913', '#c69c6e']")) %>% plot
 ```
+

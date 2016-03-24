@@ -1,7 +1,7 @@
 if (!exists(".inflation")) {
   .inflation <- getSymbols('CPIAUCNS', src = 'FRED', 
      auto.assign = FALSE)
-}  
+}
 
 # adjusts yahoo finance data with the monthly consumer price index 
 # values provided by the Federal Reserve of St. Louis
@@ -23,3 +23,4 @@ adjust <- function(data) {
       axts[ , 5] <- Vo(data)
       axts
 }
+

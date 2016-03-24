@@ -83,7 +83,14 @@ gaming industry.
 
 ## 3. Shinyapp's Report
 
-  In order to easier to read the report, here I display the data report on shinyapps website. Please click the link to view the web-base report at `r HTML("<a href='http://www.google.com/webhp' target='_blank'><img align='right' alt='runApps' src='figure/runApps.jpg'/></a>")`.
+  I tried to refer to [History of R Financial Time Series Plotting](https://timelyportfolio.github.io/rCharts_time_series/history.html). However it unable users to choose the stock counters and directly display the output by interactive mode. Therefore in order to easier to read an interactive report, here I display the data report on shinyapps website.
+  
+```{r , echo=FALSE}
+library(shiny)
+
+```
+
+  Please click the link to view the independent web-base report at `r HTML("<a href='http://www.google.com/webhp' target='_blank'><img align='right' alt='runApps' src='figure/runApps.jpg'/></a>")`.
   
   You can also simply `shiny::runGitHub('scibrokes/report')` or `shiny::runApp('report')`.
   

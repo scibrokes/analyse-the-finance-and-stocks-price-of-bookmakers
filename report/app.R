@@ -9,14 +9,22 @@
 
 suppressMessages(library('BBmisc'))
 pkgs <- c('shiny', 'shinythemes', 'shinyjs', 'shinyBS', 'shinydashboard', 'shinyAce', 'quantmod', 
-          'TTR', 'plyr', 'dplyr', 'stringr', 'purrr', 'googleCharts')
+          'TTR', 'plyr', 'dplyr', 'stringr', 'purrr', 'googleCharts', 'lubridate', 'googleVis')
 suppressMessages(lib(pkgs))
 suppressMessages(source('stocks.R'))
+suppressMessages(source('helpers.R'))
 rm(pkgs)
 
+dat <- llply(tickers, function(x){
+  y <- data.frame(Com=x, as.data.frame(getSymbols(x, auto.assign=FALSE, src='google'))) %>% 
+    mutate(Date=ymd(rownames(.)), Weekday=factor(weekdays(Date))); 
+  names(y) <- c('Com', 'Open', 'High', 'Low', 'Close', 'Volume', 'Date', 'Weekday'); 
+  y}) %>% rbind_all %>% tbl_df %>% 
+  select(Date, Weekday, Com, Open, High, Low, Close, Volume) %>% mutate(Com=factor(Com))
+
 ## =================================================================================
-messageData <- data_frame(from=c('Andy', 'Terry', 'Jimmy'), 
-                          message=c('Your song: 世界第一等 & 欢聚歌', 'Gaming introduction',
+messageData <- data_frame(from=c('Sayaka', '鬼塚先生', '小松拓也'), 
+                          message=c('Your song: Ever Since', 'Gaming introduction',
                                     'World Vision Donation'))
 
 dbHeader <- dashboardHeader(title = 'Reporting Dashboard',
@@ -33,9 +41,13 @@ dbHeader <- dashboardHeader(title = 'Reporting Dashboard',
                              taskItem(value = 90, color = 'green', 'Documentation'),
                              taskItem(value = 17, color = 'aqua', 'Project X'),
                              taskItem(value = 75, color = 'yellow', 'Server deployment'),
-                             taskItem(value = 80, color = 'red', 'Overall project')))
-dbHeader$children$children <- HTML("<a href='http://www.scibrokes.com' target='_blank'>
-                        <img align='right' alt='Logo' src='www/oda-army.jpg'/></a>")
+                             taskItem(value = 80, color = 'red', 'Overall project')),
+                tags$li(class = 'dropdown',
+                        tags$a(href='http://www.scibrokes.com', target='_blank', 
+                               tags$img(height = '20px', alt='Scibrokes Logo', align='right', 
+                                        src='https://avatars0.githubusercontent.com/u/13562894?v=3&s=200')
+                        )
+                ))
 
 ## ---------------------------------------------------------------------------------
 ui <- dashboardPage(
@@ -47,8 +59,10 @@ ui <- dashboardPage(
       menuItem('Dashboard', tabName = 'dashboard', icon = icon('dashboard')),
       menuItem('Widgets', tabName = 'widgets', icon = icon('th')),
       menuItem('Stocks Prices', tabName = 'line-charts', icon = icon('line-chart')),
-      menuItem('Financial Statements', tabName = 'bar-charts', icon = icon('bar-chart'),
-      menuSubItem('Annual Summary Charts', tabName='bar-charts', icon = icon('bar-chart'))),
+      menuItem('Financial Statements', tabName = 'finance', icon = icon('bar-chart'),
+      menuSubItem('Annual Summary Charts', tabName='bar-charts', icon = icon('bar-chart')),
+      menuSubItem('Stock Price Table', tabName='table-charts', icon = icon('bar-chart')),
+      menuSubItem('Calculation', tabName='calculation', icon = icon('bar-chart'))),
       menuItem('Calendar', tabName = 'calendar', icon = icon('calendar')),
       menuItem('References', tabName = 'file-pdf', icon = icon('file-pdf-o')),
       menuItem('Source code', icon = icon('file-code-o'), 
@@ -59,7 +73,9 @@ ui <- dashboardPage(
     tabItems(
       # First tab content
       tabItem(tabName = 'dashboard',
-              h3(HTML("<a href='http://success.wp.shu.edu.tw/1050323%EF%BC%9A%E8%B2%A1%E7%B6%93%E9%96%8B%E6%94%BE%E6%95%B8%E6%93%9A%E5%B9%B3%E5%8F%B0stock-ai%E5%92%8Cr%E5%88%86%E6%9E%90%E4%BB%8B%E9%9D%A2/'>財經開放數據平台Stock AI和R分析介面</a>")),
+              h3(HTML("<a href='http://success.wp.shu.edu.tw/1050323%EF%BC%9A%E8%B2%A1%E7%B6%93%E9%96%8B
+                      %E6%94%BE%E6%95%B8%E6%93%9A%E5%B9%B3%E5%8F%B0stock-ai%E5%92%8Cr%E5%88%86%E6%9E%90%
+                      E4%BB%8B%E9%9D%A2/'>財經開放數據平台Stock AI和R分析介面</a>")),
               fluidRow(
                 box(plotOutput('plot1', height = 250)),
                 box(
@@ -67,10 +83,12 @@ ui <- dashboardPage(
                   sliderInput('slider', 'Number of observations:', 1, 100, 50)
                 ))),
       # 2nd tab content
+      tabItem(tabName = 'widgets',
+              h2('Widgets tab content')),
+      # 3rd tab content
       tabItem(tabName = 'line-charts',
-              h2('Stocks Prices Line Charts'),
-              dateRangeInput("dates", "Date range",
-                             start = "2013-01-01", end = as.character(Sys.Date())),
+              h2('Stocks Prices Line Charts'), dateRangeInput('dates1', 'Date range',
+                 start = '2013-01-01', end = as.character(Sys.Date())),
               br(),
               fluidRow(column(1, checkboxInput('888', '888 Holdings PLC', value = FALSE)),
                        column(2, checkboxInput('BET', 'Betfair Group Ltd', value = FALSE)),
@@ -90,11 +108,11 @@ ui <- dashboardPage(
               fluidRow(column(1, checkboxInput('TTR', '32Red PLC', value = FALSE)),
                        column(2, checkboxInput('WEB', 'Webis Holdings PLC', value = FALSE)),
                        column(3, checkboxInput('WMH', 'William Hill PLC', value = FALSE))),
-              mainPanel(
-                
-              )
-              ),
-      # 3rd tab content
+              mainPanel(plotOutput("plot1"))),
+      # 4th tab content
+      tabItem(tabName = 'finance',
+              h2('Financial Statements')),
+      # 5th tab content
       tabItem(tabName = 'bar-charts',
               h2('Financial Statements Bar Charts'),
               fluidPage(
@@ -102,55 +120,124 @@ ui <- dashboardPage(
                 sidebarLayout(
                   sidebarPanel(
                     conditionalPanel(
-                      'input.dataset === "diamonds"',
-                      checkboxGroupInput('show_vars', 'Columns in diamonds to show:',
-                                         names(diamonds), selected = names(diamonds))
-                    ),
+                      'input.dataset === "comp"',
+                      checkboxGroupInput('show_vars', 'Columns in comp to show:',
+                                         names(comp), selected = names(comp))),
                     conditionalPanel(
-                      'input.dataset === "mtcars"',
-                      helpText('Click the column header to sort a column.')
-                    ),
+                      'input.dataset === "comp"',
+                      helpText('Click the column header to sort a column.')),
                     conditionalPanel(
-                      'input.dataset === "iris"',
-                      helpText('Display 5 records by default.')
-                    ),
+                      'input.dataset === "comp"',
+                      helpText('Display 5 records by default.')),
                     titlePanel('Downloading Data'),
                     sidebarLayout(
                       sidebarPanel(
-                        selectInput("dataset", "Choose a dataset:", 
-                                    choices = c("rock", "pressure", "cars")),
-                        downloadButton('downloadData', 'Download')
-                      ),
+                        selectInput('dataset', 'Choose a dataset:', 
+                                    choices = c('comp', 'comp', 'comp')),
+                        downloadButton('downloadData', 'Download')),
                       mainPanel(
-                        tableOutput('table')
-                      )
+                        tableOutput('table'))
                     )),
                   mainPanel(
                     tabsetPanel(
                       id = 'dataset',
-                      tabPanel('diamonds', DT::dataTableOutput('mytable1')),
-                      tabPanel('mtcars', DT::dataTableOutput('mytable2')),
-                      tabPanel('iris', DT::dataTableOutput('mytable3'))
+                      tabPanel('comp', DT::dataTableOutput('mytable1')),
+                      tabPanel('comp', DT::dataTableOutput('mytable2')),
+                      tabPanel('comp', DT::dataTableOutput('mytable3'))
                     )
                   )
                 )
               )),
-      # 4th tab content
-      tabItem(tabName = 'widgets',
-              h2('Widgets tab content')),
-      # 5th tab content
-      tabItem(tabName = 'file-pdf',
-              h2('Reference tab content'),
-              tabPanel("Help",
-                HTML('<iframe src=\"https://englianhu.files.wordpress.com/2016/03/financial-statements-a-step-by-step-guide-to-understanding-and-creating-financial-reports.pdf" 
-                         width=\"900\" height=\"600\"></iframe>')
-              ),
-              imageOutput("imp_pdf",width="500px",height="500px")),
       # 6th tab content
+      tabItem(tabName = 'table-charts',
+              h2('Stock Price Table Charts'),
+              mainPanel(c('lat', 'Latitude'))
+              ),
+      # 7th tab content
+      tabItem(tabName = 'calculation',
+              h2('Calculation'),
+              selectInput("dataset", "Dataset", c("diamonds", "rock", "pressure", "cars")),
+              conditionalPanel(
+                condition = "output.nrows",
+                checkboxInput("headonly", "Only use first 1000 rows"))),
+      # 8th tab content
+      tabItem(tabName = 'dashboard',
+              h3(HTML("<a href='http://stackoverflow.com/questions/17930985/conditional-output-shiny-ui'>
+                      Conditional Output Shiny UI</a>")),
+              pageWithSidebar(
+                headerPanel("Shiny Example"),
+                sidebarPanel(
+                  wellPanel(
+                    selectInput(
+                      inputId = "variable1",label = "Select First Variable:",
+                      choices = c("Binary Variable 1" = "binary1",
+                                  "Binary Variable 2" = "binary2",
+                                  "Continuous Variable 1" = "cont1",
+                                  "Continuous Variable 2" = "cont2"),
+                      selected = "Binary Variable 1")
+                  ),
+                  wellPanel(
+                    checkboxInput("bivariate", "Proceed to Bivariate Analysis", FALSE),
+                    conditionalPanel(
+                      condition="input.bivariate==true",
+                      selectInput(inputId = "variable2", 
+                                  label = "Select Second Variable:",
+                                  choices = c("Binary Variable 1" = "binary1",
+                                              "Binary Variable 2" = "binary2", 
+                                              "Continuous Variable 1" = "cont1",
+                                              "Continuous Variable 2" = "cont2"),
+                                  selected = "Binary Variable 2"
+                      )
+                    )
+                  )
+                ),
+                mainPanel(
+                  h5("Item Response Rate"),
+                  verbatimTextOutput("nitem"),
+                  
+                  h5(textOutput("caption2")),
+                  verbatimTextOutput("out2"),
+                  
+                  h5(textOutput("caption3")),
+                  verbatimTextOutput("out3"),
+                  
+                  h5(textOutput("caption4")),
+                  verbatimTextOutput("out4"),
+                  
+                  h5(textOutput("caption5")),
+                  plotOutput("out5")
+                )
+              )),
+      # 9th tab content
+      tabItem(tabName = 'file-pdf',
+              h2('Reference:'),
+              tabPanel("Help",
+                HTML('<iframe src=\"https://englianhu.files.wordpress.com/2016/03/financial-statements-a-step-by-step-guide-to-understanding-and-creating-financial-reports.pdf" width=\"900\" height=\"600\"></iframe>')),
+              imageOutput('imp_pdf', width='500px', height='500px')),
+      # 10th tab content
       tabItem(tabName = 'calendar',
-              fluidRow(
-                column(3, dateRangeInput('dates', label=h3('Date range')))
-              )))))
+              h2('Test Plot'),
+              fluidPage(
+                title = ('stockVis'),
+                sidebarLayout(
+                  sidebarPanel(
+                    helpText('Select a stock to examine. Information will be collected from yahoo finance.'),
+                    textInput('symb', 'Symbol', 'BET'),
+                    dateRangeInput('dates', 'Date range',
+                                   start = '2013-01-01', 
+                                   end = as.character(Sys.Date())),
+                    br(),
+                    br(),
+                    
+                    checkboxInput("log", "Plot y axis on log scale", 
+                                  value = FALSE),
+                    
+                    checkboxInput("adjust", 
+                                  "Adjust prices for inflation", value = FALSE)
+                  ),
+                  mainPanel(plotOutput("plot"))
+                )))
+      )))
 
 server <- function(input, output) {
   set.seed(122)
@@ -173,11 +260,23 @@ server <- function(input, output) {
     dropdownMenu(type = 'messages', .list = msgs)
   })
   
+  # Partial example
   datasetInput <- reactive({
     switch(input$dataset,
            "rock" = rock,
            "pressure" = pressure,
-           "cars" = cars)})
+           "cars" = cars)
+  })
+  
+  output$nrows <- reactive({
+    nrow(datasetInput())
+  })
+  
+  datasetInput <- reactive({
+    switch(input$dataset,
+           "comp" = comp,
+           "comp" = comp,
+           "comp" = comp)})
   
   output$table <- renderTable({
     datasetInput()
@@ -197,7 +296,7 @@ server <- function(input, output) {
   defaultColors <- c("#3366cc", "#dc3912", "#ff9900", "#109618", "#990099", "#0099c6", "#dd4477")
   series <- structure(
     lapply(defaultColors, function(color) { list(color=color) }),
-    names = levels(iris$Species)
+    names = levels(comp$Com)
   )
   
   yearData <- reactive({
@@ -206,7 +305,7 @@ server <- function(input, output) {
     # them (name, x, y, color, size). Also sort by region
     # so that Google Charts orders and colors the regions
     # consistently.
-    df <- data %.% arrange(Sepal.Length)
+    df <- data %.% arrange(Weekday)
   })
   
   output$chart <- reactive({
@@ -216,12 +315,41 @@ server <- function(input, output) {
       options = list(
         title = sprintf(
           "Health expenditure vs. life expectancy, %s",
-          input$Species),
+          input$Weekday),
         series = series
       )
     )
   })
-
+  
+  dataInput <- reactive({
+    getSymbols(input$symb, src = "google", 
+               from = input$dates[1],
+               to = input$dates[2],
+               auto.assign = FALSE)
+  })
+  
+  output$plot <- renderPlot({   
+    data <- dataInput()
+    if (input$adjust) data <- adjust(dataInput())
+    
+    chartSeries(data, theme = chartTheme("white"), 
+                type = "line", log.scale = input$log, TA = NULL)
+  })
+  
+  dat = dat[sample(nrow(dat), 1000), ]
+  output$mytable1 <- DT::renderDataTable({
+    DT::datatable(dat[, input$show_vars, drop = FALSE])
+  })
+  
+  # sorted columns are colored now because CSS are attached to them
+  output$mytable2 <- DT::renderDataTable({
+    DT::datatable(comp, options = list(orderClasses = TRUE))
+  })
+  
+  # customize the length drop-down menu; display 5 rows per page by default
+  output$mytable3 <- DT::renderDataTable({
+    DT::datatable(comp, options = list(lengthMenu = c(5, 30, 50), pageLength = 5))
+  })
 }
 
 shinyApp(ui, server)

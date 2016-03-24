@@ -19,83 +19,334 @@ To learn more, see [Interactive Documents](http://rmarkdown.rstudio.com/authorin
 You can embed Shiny inputs and outputs in your document. Outputs are automatically updated whenever inputs change.  This demonstrates how a standard R plot can be made interactive by wrapping it in the Shiny `renderPlot` function. The `selectInput` and `sliderInput` functions create the input widgets used to drive the plot.
 
 ```{r eruptions, echo=FALSE}
-inputPanel(
-  selectInput("n_breaks", label = "Number of bins:",
-              choices = c(10, 20, 35, 50), selected = 20),
-  
-  sliderInput("bw_adjust", label = "Bandwidth adjustment:",
-              min = 0.2, max = 2, value = 1, step = 0.2)
-)
+suppressMessages(library('BBmisc'))
+pkgs <- c('shiny', 'shinythemes', 'shinyjs', 'shinyBS', 'shinydashboard', 'shinyAce', 'quantmod', 
+          'TTR', 'plyr', 'dplyr', 'stringr', 'purrr', 'googleCharts', 'lubridate', 'googleVis')
+suppressMessages(lib(pkgs))
+suppressMessages(source('report/helpers.R'))
+rm(pkgs)
 
-renderPlot({
-  hist(faithful$eruptions, probability = TRUE, breaks = as.numeric(input$n_breaks),
-       xlab = "Duration (minutes)", main = "Geyser eruption duration")
-  
-  dens <- density(faithful$eruptions, adjust = input$bw_adjust)
-  lines(dens, col = "blue")
-})
-```
+tickers <- c('BET', 'BPTY', 'WMH', 'SPO', '888', 'PTEC', 'PCGE', 'TTR', 'GVC', 'WEB', 
+             'BOX', 'RNK', 'LAD', 'STR')
 
-## Embedded Application
+comp <- llply(tickers, function(x){
+  y <- data.frame(Com=x, as.data.frame(getSymbols(x, auto.assign=FALSE, src='google'))) %>% 
+    mutate(Date=ymd(rownames(.)), Weekday=factor(weekdays(Date))); 
+  names(y) <- c('Com', 'Open', 'High', 'Low', 'Close', 'Volume', 'Date', 'Weekday'); 
+  y}) %>% rbind_all %>% tbl_df %>% 
+  select(Date, Weekday, Com, Open, High, Low, Close, Volume) %>% mutate(Com=factor(Com))
 
-It's also possible to embed an entire Shiny application within an R Markdown document using the `shinyAppDir` function. This example embeds a Shiny application located in another directory:
+## =================================================================================
+messageData <- data_frame(from=c('Sayaka', '鬼塚先生', '小松拓也'), 
+                          message=c('Your song: Ever Since', 'Gaming introduction',
+                                    'World Vision Donation'))
 
-```{r tabsets, echo=FALSE}
-shinyAppDir(
-  system.file("examples/06_tabsets", package = "shiny"),
-  options = list(
-    width = "100%", height = 550
-  )
-)
-```
+dbHeader <- dashboardHeader(title = 'Reporting Dashboard',
+                dropdownMenuOutput('messageMenu'),
+                dropdownMenu(type = 'notifications',
+                             notificationItem(text = '5 new users today', icon('users')),
+                             notificationItem(text = '12 items delivered', 
+                                              icon('truck'), status = 'success'),
+                             notificationItem(text = 'Server load at 86%', 
+                                              icon = icon('exclamation-triangle'), 
+                                              status = 'warning')),
+                dropdownMenu(type = 'tasks',
+                             badgeStatus = 'success',
+                             taskItem(value = 90, color = 'green', 'Documentation'),
+                             taskItem(value = 17, color = 'aqua', 'Project X'),
+                             taskItem(value = 75, color = 'yellow', 'Server deployment'),
+                             taskItem(value = 80, color = 'red', 'Overall project')),
+                tags$li(class = 'dropdown',
+                        tags$a(href='http://www.scibrokes.com', target='_blank', 
+                               tags$img(height = '20px', alt='Scibrokes Logo', align='right', 
+                                        src='https://avatars0.githubusercontent.com/u/13562894?v=3&s=200')
+                        )
+                ))
 
-Note the use of the `height` parameter to determine how much vertical space the embedded application should occupy.
-
-You can also use the `shinyApp` function to define an application inline rather then in an external directory.
-
-In all of R code chunks above the `echo = FALSE` attribute is used. This is to prevent the R code within the chunk from rendering in the document alongside the Shiny components.
-
-```{r, echo=FALSE}
-library(shinydashboard)
-
+## ---------------------------------------------------------------------------------
 ui <- dashboardPage(
-  dashboardHeader(title = "Basic dashboard"),
+  dbHeader,
+  
   ## Sidebar content
   dashboardSidebar(
     sidebarMenu(
-      menuItem("Dashboard", tabName = "dashboard", icon = icon("dashboard")),
-      menuItem("Widgets", tabName = "widgets", icon = icon("th"))
-    )
-  ),
+      menuItem('Dashboard', tabName = 'dashboard', icon = icon('dashboard')),
+      menuItem('Widgets', tabName = 'widgets', icon = icon('th')),
+      menuItem('Stocks Prices', tabName = 'line-charts', icon = icon('line-chart')),
+      menuItem('Financial Statements', tabName = 'finance', icon = icon('bar-chart'),
+      menuSubItem('Annual Summary Charts', tabName='bar-charts', icon = icon('bar-chart')),
+      menuSubItem('Stock Price Table', tabName='table-charts', icon = icon('bar-chart')),
+      menuSubItem('Calculation', tabName='calculation', icon = icon('bar-chart'))),
+      menuItem('Calendar', tabName = 'calendar', icon = icon('calendar')),
+      menuItem('References', tabName = 'file-pdf', icon = icon('file-pdf-o')),
+      menuItem('Source code', icon = icon('file-code-o'), 
+               href = 'https://github.com/scibrokes/analyse-the-finance-and-stocks-price-of-bookmakers')
+    )),
   ## Body content
   dashboardBody(
     tabItems(
       # First tab content
-      tabItem(tabName = "dashboard",
-        fluidRow(
-          box(plotOutput("plot1", height = 250)),
+      tabItem(tabName = 'dashboard',
+              h3(HTML("<a href='http://success.wp.shu.edu.tw/1050323%EF%BC%9A%E8%B2%A1%E7%B6%93%E9%96%8B
+                      %E6%94%BE%E6%95%B8%E6%93%9A%E5%B9%B3%E5%8F%B0stock-ai%E5%92%8Cr%E5%88%86%E6%9E%90%
+                      E4%BB%8B%E9%9D%A2/'>財經開放數據平台Stock AI和R分析介面</a>")),
+              fluidRow(
+                box(plotOutput('plot1', height = 250)),
+                box(
+                  title = 'Controls',
+                  sliderInput('slider', 'Number of observations:', 1, 100, 50)
+                ))),
+      # 2nd tab content
+      tabItem(tabName = 'widgets',
+              h2('Widgets tab content')),
+      # 3rd tab content
+      tabItem(tabName = 'line-charts',
+              h2('Stocks Prices Line Charts'), dateRangeInput('dates1', 'Date range',
+                 start = '2013-01-01', end = as.character(Sys.Date())),
+              br(),
+              fluidRow(column(1, checkboxInput('888', '888 Holdings PLC', value = FALSE)),
+                       column(2, checkboxInput('BET', 'Betfair Group Ltd', value = FALSE)),
+                       column(3, checkboxInput('BOTB', 'Best of the Best PLC', value = FALSE))),
+              fluidRow(column(1, checkboxInput('BOX', 'Boxhill Technologies PLC', value = FALSE)),
+                       column(2, checkboxInput('BPTY', 'Bwin.party Digital Entertainment PLC', value = FALSE)),
+                       column(3, checkboxInput('GVC', 'GVC Holdings PLC', value = FALSE))),
+              fluidRow(column(1, checkboxInput('LAD', 'Ladbrokes PLC', value = FALSE)),
+                       column(2, checkboxInput('NPT', 'Netplay TV PLC', value = FALSE)),
+                       column(3, checkboxInput('PCGE', 'Betfair PLC', value = FALSE))),
+              fluidRow(column(1, checkboxInput('PTEC', 'Playtech PLC', value = FALSE)),
+                       column(2, checkboxInput('RNK', 'Rank Group PLC', value = FALSE)),
+                       column(3, checkboxInput('SBT', 'Sportingbet Ltd', value = FALSE))),
+              fluidRow(column(1, checkboxInput('SPO', 'Sportech PLC', value = FALSE)),
+                       column(2, checkboxInput('STR', 'Stride Gaming PLC', value = FALSE)),
+                       column(3, checkboxInput('TNI', 'Trinity Mirror PLC', value = FALSE))),
+              fluidRow(column(1, checkboxInput('TTR', '32Red PLC', value = FALSE)),
+                       column(2, checkboxInput('WEB', 'Webis Holdings PLC', value = FALSE)),
+                       column(3, checkboxInput('WMH', 'William Hill PLC', value = FALSE))),
+              mainPanel(plotOutput("plot1"))),
+      # 4th tab content
+      tabItem(tabName = 'finance',
+              h2('Financial Statements')),
+      # 5th tab content
+      tabItem(tabName = 'bar-charts',
+              h2('Financial Statements Bar Charts'),
+              fluidPage(
+                title = 'Examples of DataTables',
+                sidebarLayout(
+                  sidebarPanel(
+                    conditionalPanel(
+                      'input.dataset === "comp"',
+                      checkboxGroupInput('show_vars', 'Columns in comp to show:',
+                                         names(comp), selected = names(comp))),
+                    conditionalPanel(
+                      'input.dataset === "comp"',
+                      helpText('Click the column header to sort a column.')),
+                    conditionalPanel(
+                      'input.dataset === "comp"',
+                      helpText('Display 5 records by default.')),
+                    titlePanel('Downloading Data'),
+                    sidebarLayout(
+                      sidebarPanel(
+                        selectInput('dataset', 'Choose a dataset:', 
+                                    choices = c('comp', 'comp', 'comp')),
+                        downloadButton('downloadData', 'Download')),
+                      mainPanel(
+                        tableOutput('table'))
+                    )),
+                  mainPanel(
+                    tabsetPanel(
+                      id = 'dataset',
+                      tabPanel('comp', DT::dataTableOutput('mytable1')),
+                      tabPanel('comp', DT::dataTableOutput('mytable2')),
+                      tabPanel('comp', DT::dataTableOutput('mytable3'))
+                    )
+                  )
+                )
+              )),
+      # 6th tab content
+      tabItem(tabName = 'table-charts',
+              h2('Stock Price Table Charts')),
+      # 7th tab content
+      tabItem(tabName = 'calculation',
+              h2('Calculation')),
+      # 8th tab content
+      tabItem(tabName = 'dashboard',
+              h3(HTML("<a href='http://stackoverflow.com/questions/17930985/conditional-output-shiny-ui'>
+                      Conditional Output Shiny UI</a>")),
+              pageWithSidebar(
+                headerPanel("Shiny Example"),
+                sidebarPanel(
+                  wellPanel(
+                    selectInput(    inputId = "variable1",label = "Select First Variable:", 
+                                    choices = c("Binary Variable 1" = "binary1",
+                                                "Binary Variable 2" = "binary2", 
+                                                "Continuous Variable 1" = "cont1",
+                                                "Continuous Variable 2" = "cont2"),
+                                    selected = "Binary Variable 1"
+                    )
+                  ),
+                  wellPanel(
+                    checkboxInput("bivariate", "Proceed to Bivariate Analysis", FALSE),
+                    conditionalPanel(
+                      condition="input.bivariate==true",
+                      selectInput(inputId = "variable2", 
+                                  label = "Select Second Variable:",
+                                  choices = c("Binary Variable 1" = "binary1",
+                                              "Binary Variable 2" = "binary2", 
+                                              "Continuous Variable 1" = "cont1",
+                                              "Continuous Variable 2" = "cont2"),
+                                  selected = "Binary Variable 2"
+                      )
+                    )
+                  )
+                ),
+                mainPanel(
+                  h5("Item Response Rate"),
+                  verbatimTextOutput("nitem"),
+                  
+                  h5(textOutput("caption2")),
+                  verbatimTextOutput("out2"),
+                  
+                  h5(textOutput("caption3")),
+                  verbatimTextOutput("out3"),
+                  
+                  h5(textOutput("caption4")),
+                  verbatimTextOutput("out4"),
+                  
+                  h5(textOutput("caption5")),
+                  plotOutput("out5")
+                )
+              )),
+      # 9th tab content
+      tabItem(tabName = 'file-pdf',
+              h2('Reference:'),
+              tabPanel("Help",
+                HTML('<iframe src=\"https://englianhu.files.wordpress.com/2016/03/
+                      financial-statements-a-step-by-step-guide-to-understanding-and-creating-financial-reports.pdf" 
+                         width=\"900\" height=\"600\"></iframe>')),
+              imageOutput('imp_pdf', width='500px', height='500px')),
+      # 10th tab content
+      tabItem(tabName = 'calendar',
+              h2('Test Plot'),
+              fluidPage(
+                title = ('stockVis'),
+                sidebarLayout(
+                  sidebarPanel(
+                    helpText('Select a stock to examine. Information will be collected from yahoo finance.'),
+                    textInput('symb', 'Symbol', 'BET'),
+                    dateRangeInput('dates', 'Date range',
+                                   start = '2013-01-01', 
+                                   end = as.character(Sys.Date())),
+                    br(),
+                    br(),
+                    
+                    checkboxInput("log", "Plot y axis on log scale", 
+                                  value = FALSE),
+                    
+                    checkboxInput("adjust", 
+                                  "Adjust prices for inflation", value = FALSE)
+                  ),
+                  mainPanel(plotOutput("plot"))
+                )))
+      )))
 
-          box(
-            title = "Controls",
-            sliderInput("slider", "Number of observations:", 1, 100, 50)
-          )
-        )
-      ),
-
-      # Second tab content
-      tabItem(tabName = "widgets",
-        h2("Widgets tab content")
-      )
-    )
-  )
-)
 server <- function(input, output) {
   set.seed(122)
   histdata <- rnorm(500)
-
+  
   output$plot1 <- renderPlot({
     data <- histdata[seq_len(input$slider)]
     hist(data)
+  })
+  
+  output$messageMenu <- renderMenu({
+    # Code to generate each of the messageItems here, in a list. This assumes
+    # that messageData is a data frame with two columns, 'from' and 'message'.
+    msgs <- apply(messageData, 1, function(row) {
+      messageItem(from = row[['from']], message = row[['message']])
+    })
+    
+    # This is equivalent to calling:
+    #   dropdownMenu(type='messages', msgs[[1]], msgs[[2]], ...)
+    dropdownMenu(type = 'messages', .list = msgs)
+  })
+  
+  datasetInput <- reactive({
+    switch(input$dataset,
+           "comp" = comp,
+           "comp" = comp,
+           "comp" = comp)})
+  
+  output$table <- renderTable({
+    datasetInput()
+  })
+  
+  output$downloadData <- downloadHandler(
+    filename = function() { 
+      paste(input$dataset, '.csv', sep='') 
+    },
+    content = function(file) {
+      write.csv(datasetInput(), file)
+    })
+  
+  # Provide explicit colors for regions, so they don't get recoded when the
+  # different series happen to be ordered differently from year to year.
+  # http://andrewgelman.com/2014/09/11/mysterious-shiny-things/
+  defaultColors <- c("#3366cc", "#dc3912", "#ff9900", "#109618", "#990099", "#0099c6", "#dd4477")
+  series <- structure(
+    lapply(defaultColors, function(color) { list(color=color) }),
+    names = levels(comp$Com)
+  )
+  
+  yearData <- reactive({
+    # Filter to the desired year, and put the columns
+    # in the order that Google's Bubble Chart expects
+    # them (name, x, y, color, size). Also sort by region
+    # so that Google Charts orders and colors the regions
+    # consistently.
+    df <- data %.% arrange(Weekday)
+  })
+  
+  output$chart <- reactive({
+    # Return the data and options
+    list(
+      data = googleDataTable(yearData()),
+      options = list(
+        title = sprintf(
+          "Health expenditure vs. life expectancy, %s",
+          input$Weekday),
+        series = series
+      )
+    )
+  })
+  
+  dataInput <- reactive({
+    getSymbols(input$symb, src = "google", 
+               from = input$dates[1],
+               to = input$dates[2],
+               auto.assign = FALSE)
+  })
+  
+  output$plot <- renderPlot({   
+    data <- dataInput()
+    if (input$adjust) data <- adjust(dataInput())
+    
+    chartSeries(data, theme = chartTheme("white"), 
+                type = "line", log.scale = input$log, TA = NULL)
+  })
+  
+  dat = dat[sample(nrow(dat), 1000), ]
+  output$mytable1 <- DT::renderDataTable({
+    DT::datatable(dat[, input$show_vars, drop = FALSE])
+  })
+  
+  # sorted columns are colored now because CSS are attached to them
+  output$mytable2 <- DT::renderDataTable({
+    DT::datatable(comp, options = list(orderClasses = TRUE))
+  })
+  
+  # customize the length drop-down menu; display 5 rows per page by default
+  output$mytable3 <- DT::renderDataTable({
+    DT::datatable(comp, options = list(lengthMenu = c(5, 30, 50), pageLength = 5))
   })
 }
 
@@ -114,8 +365,11 @@ testing candlestick charts...
 op <- options(gvis.plot.tag='chart')
 
 ## Read the datasets
-suppressMessages(source('function/libs.R'))
-suppressMessages(source('function/stocks.R'))
 gvisCandlestickChart(comp[1:100,], xvar='Weekday', low='Low', open='Open', close='Close', high='High', options=list(legend='none', vAxes="[{title:'val1'}, {title:'val2'}]", colors="['#cbb69d', '#603913', '#c69c6e']")) %>% plot
 ```
+
+### Test
+
+[Plotting multiple symbols with a reactive statement with chartSeries](http://stackoverflow.com/questions/31641704/plotting-multiple-symbols-with-a-reactive-statement-with-chartseries)
+
 

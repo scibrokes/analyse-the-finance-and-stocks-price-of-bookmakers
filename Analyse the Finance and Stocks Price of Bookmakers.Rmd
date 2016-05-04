@@ -1,7 +1,7 @@
 ---
-title: "Analyse the Finance and Stocks Price of Bookmakers"
+title: 'Analyse the Finance and Stocks Price of Bookmakers'
 author: "[®γσ, Eng Lian Hu](http://englianhu.wordpress.com) <img src='figure/ShirotoNorimichi.jpg' width='24'> 白戸則道®"
-date: "3/6/2016"
+date: '3/6/2016'
 output:
   html_document:
   fig_caption: yes
@@ -20,7 +20,7 @@ suppressMessages(library('utils'))
 suppressMessages(source('function/libs.R'))
 ```
 
-
+<http://timelyportfolio.github.io/rCharts_nyt_home_price/>
 
 ## Abtract
 
@@ -29,9 +29,16 @@ suppressMessages(source('function/libs.R'))
   - Analyse the revenue and profit of unnonymous bookmakers' products (due to confidential and privacy issue) in gambling market.
   - Analyse the revenue and profit as well as the stocks price of Public Listed European bookmakers.
 
-```{r read-data-summary-table, echo=FALSE, results='asis'}
+```{r collect data, include=FALSE}
 ## Read the datasets
-suppressMessages(source('function/stocks.R'))
+## Below tickers objects ommited since I use <<- inside preloaded file `global.R`.
+#'@ tickers <- c('888', 'BET', 'BOTB', 'BOX', 'BPTY', 'BYD', 'CACQ', 'CWLDY', 'EGT', 'GDEN', 'GEBHY', 'GIGNY', 'GLXZ', 'GPIC', 'GVC', 'GXYEY', 'IGT', 'ISLE', 'LAD', 'LVS', 'MCHVY', 'MCRI', 'MGM', 'MPEL', 'NGCRF', 'NPT', 'PCGE', 'PDSSF', 'PENN', 'PNK', 'PTEC', 'RNK', 'SCHYF', 'SGMS', 'SJMHF', 'SKYZF', 'SPO', 'STR', 'TACBY', 'TNI', 'TTR', 'WEB', 'WMH', 'WYNMF', 'WYNN')
+
+## Default dates[1]='2007-01-01' and dates[2]=as.character(Sys.Date())
+data <<- suppressAll(filterData(tickers))
+
+#'@ dates <- c(NA, paste0(year(Sys.Date())-1,'-12-31'))
+#'@ data <- getData(from=dates[1], to=dates[2])
 ```
 
   However, few studies consider investment behavior in the gaming industry, which as a regulated industry we may expect to see variances from norms established in the general finance literature. [6]*Howard Reed (2013)* describe the economics and the impact of fixed odds betting industry.
@@ -65,7 +72,7 @@ gaming industry.
 
   The sports bookmakers divided into two categories, which are traditional bankers and exchange-firm. You can refer to [2]*Fabián Enrique Moya (2012)* for more information from similarity and difference between them.
   
-  - [3]*Alper Ozgit (2005)* : The author compile and analyze a dataset of National Basketball Association (NBA) games and find that both odds and net returns on the leading betting exchange (Betfair) are consistently higher than that of the two leading bookmakers (William Hill and Ladbrokes). These results are puzzling, since the bookmakers continue to be profitable. "The bookie puzzle", the observation that bookies attract a lot of betting although better returns are available elsewhere is resolved through liquidity-based explanations. As the order size gets larger, the author find that:
+  - [3]*Alper Ozgit (2005)* : The author compile and analyze a dataset of National Basketball Association (NBA) games and find that both odds and net returns on the leading betting exchange (Betfair) are consistently higher than that of the two leading bookmakers (William Hill and Ladbrokes). These results are puzzling, since the bookmakers continue to be profitable. 'The bookie puzzle', the observation that bookies attract a lot of betting although better returns are available elsewhere is resolved through liquidity-based explanations. As the order size gets larger, the author find that:
   
     i)  The return differences vanish rapidly.
     ii) Order flow migrates to the bookmakers, thereby justifying the presence of and the need for bookmakers.
@@ -85,12 +92,13 @@ gaming industry.
 
   I tried to refer to [History of R Financial Time Series Plotting](https://timelyportfolio.github.io/rCharts_time_series/history.html). However it unable users to choose the stock counters and directly display the output by interactive mode. Therefore in order to easier to read an interactive report, here I display the data report on shinyapps website.
   
-```{r , echo=FALSE}
-library(shiny)
-
+  You are welcome to browse over below *tiny shinyapps* to plot some stock counters.
+  
+```{r tinyapp, echo=FALSE, result='asis'}
+shinyApp(source('function/app.R'))
 ```
 
-  Please click the link to view the independent web-base report at `r HTML("<a href='http://www.google.com/webhp' target='_blank'><img align='right' alt='runApps' src='figure/runApps.jpg'/></a>")`.
+  Please click the link to view the *completed version* web-base report at `r HTML("<a href='http://www.google.com/webhp' target='_blank'><img align='right' alt='runApps' src='figure/runApps.jpg'/></a>")`.
   
   You can also simply `shiny::runGitHub('scibrokes/report')` or `shiny::runApp('report')`.
   
@@ -145,7 +153,7 @@ Sys.info()
   - ...
   - File version: 1.0.1
   - ...
-  - File version: 1.0.2 - *"2015-11-22 09:41:49 JST"*
+  - File version: 1.0.2 - *'2015-11-22 09:41:49 JST'*
   - ...
    
    
@@ -195,6 +203,7 @@ Sys.info()
   27) [ShinyApps: Experience Statistics](http://shinyapps.org/)
   29) [Dekalog (2012) - *Unbelievable and Amazing R Shiny–Web Parameter Test in 1.5 Hours*](http://timelyportfolio.blogspot.my/2012/11/unbelievable-and-amazing-r-shinyweb.html)
   30) [®Studio Shiny Tutorial - *LESSON 6: Use reactive expressions*](http://shiny.rstudio.com/tutorial/lesson6/)
+  31) [googleVis on shiny](https://github.com/mages/googleVis_on_shiny/blob/gh-pages/index.Rmd)
 
 
 **Powered by - Copyright© Intellectual Property Rights of <img src='figure/oda-army.jpg' width='24'> [Scibrokes®](http://www.scibrokes.com)個人の経営企業**

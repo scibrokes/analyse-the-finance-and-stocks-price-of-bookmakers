@@ -13,7 +13,7 @@ if (!require(quantmod)) {
 # Download data for a stock, if needed
 require_symbol <- function(symbol) {
   if (!exists(symbol))
-    getSymbols(symbol, src="FRED")
+    getSymbols(symbol, src="WMH")
   #getSymbols(symbol, from = "1900-01-01")
 }
 
@@ -21,7 +21,7 @@ library(shiny)
 
 # Define server logic required to summarize and view the selected dataset
 shinyServer(function(input, output) {
-  make_chart <- function(symbol="SP500") {
+  make_chart <- function(symbol="WMH") {
     # get price data if does not exist
     require_symbol(symbol)
     
@@ -38,7 +38,7 @@ shinyServer(function(input, output) {
     charts.PerformanceSummary(systemRet, ylog=TRUE)
   }
   
-  make_table <- function(symbol="SP500") {
+  make_table <- function(symbol="WMH") { #SP500
     # get price data if does not exist
     require_symbol(symbol)
     
@@ -57,12 +57,12 @@ shinyServer(function(input, output) {
   
   # Generate a plot of the system and buy/hold benchmark given nmonths parameter
   # include outliers if requested
-  output$systemPlot <- reactivePlot(function() {
+  output$systemPlot <- renderPlot(function() {
     make_chart()
   })
   
   # Generate a summary stats table of the dataset
-  output$view <- reactiveTable(function() {
+  output$view <- renderTable(function() {
     make_table()
   })
   

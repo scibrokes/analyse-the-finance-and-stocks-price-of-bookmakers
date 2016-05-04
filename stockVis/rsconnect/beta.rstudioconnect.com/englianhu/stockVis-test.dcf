@@ -2,8 +2,8 @@ name: stockVis-test
 account: englianhu
 server: beta.rstudioconnect.com
 appId: 686
-bundleId: 1196
+bundleId: 1256
 url: https://beta.rstudioconnect.com/englianhu/stockVis-test/
-when: 1458750573.65023
+when: 1459259410.28869
 asMultiple: FALSE
 asStatic: FALSE

@@ -5,14 +5,9 @@ rm(list = ls())
 library(shiny)
 runApp(list(
   ui=shinyUI(pageWithSidebar(
-    
     headerPanel("Shiny Example"),
-    
     sidebarPanel(
-      
-      
       wellPanel(
-        
         selectInput(    inputId = "variable1",label = "Select First Variable:", 
                         choices = c("Binary Variable 1" = "binary1",
                                     "Binary Variable 2" = "binary2", 
@@ -21,10 +16,7 @@ runApp(list(
                         selected = "Binary Variable 1"
         )
       ),
-      
-      
       wellPanel(
-        
         checkboxInput("bivariate", "Proceed to Bivariate Analysis", FALSE),
         conditionalPanel(
           condition="input.bivariate==true",
@@ -40,7 +32,6 @@ runApp(list(
       )
     ),
     mainPanel(
-      
       h5("Item Response Rate"),
       verbatimTextOutput("nitem"),
       
@@ -70,7 +61,6 @@ runApp(list(
   dat$cont2 <- as.numeric(dat$cont2)},
   
   server= shinyServer(function(input, output) {
-    
     inputVar1 <- reactive({
       parse(text=sub(" ","",paste("dat$", input$variable1)))
     })
@@ -80,38 +70,31 @@ runApp(list(
     })
     
     output$nitem <- renderPrint({
-      
-      
       if ( (input$bivariate==FALSE) & (is.factor(eval(inputVar1()))==TRUE) ) {
         n <- sum(table(eval(inputVar1())))
         p <- n/100
         out <- cat(paste(n,gsub(" ","",paste("(",round(as.numeric(p)*100,2),"%",")"))),"\n")
       } else {
-        
         if ( (input$bivariate==FALSE) & (is.numeric(eval(inputVar1()))==TRUE) ) {
           n <- sum(table(eval(inputVar1())))
           p <- n/100
           out <- cat(paste(n,gsub(" ","",paste("(",round(as.numeric(p)*100,2),"%",")"))),"\n")
         } else {
-          
           if ( (input$bivariate==TRUE) & (is.factor(eval(inputVar1()))==TRUE) & (is.factor(eval(inputVar2()))==TRUE) ) {
             n <- sum(table(eval(inputVar1()),eval(inputVar2())))
             p <- n/100
             out <- cat(paste(n,gsub(" ","",paste("(",round(as.numeric(p)*100,2),"%",")"))),"\n")
           } else {
-            
             if ( (input$bivariate==TRUE) & (is.numeric(eval(inputVar1()))==TRUE) & (is.numeric(eval(inputVar2()))==TRUE) ) {
               n <- sum(table(eval(inputVar1()),eval(inputVar2())))
               p <- n/100
               out <- cat(paste(n,gsub(" ","",paste("(",round(as.numeric(p)*100,2),"%",")"))),"\n")
             } else {
-              
               if ( (input$bivariate==TRUE) & (is.factor(eval(inputVar1()))==TRUE) & (is.numeric(eval(inputVar2()))==TRUE) ) {
                 n <- sum(table(eval(inputVar1()),eval(inputVar2())))
                 p <- n/100
                 out <- cat(paste(n,gsub(" ","",paste("(",round(as.numeric(p)*100,2),"%",")"))),"\n")
-              } else { 
-                
+              } else {
                 if ( (input$bivariate==TRUE) & (is.numeric(eval(inputVar1()))==TRUE) & (is.factor(eval(inputVar2()))==TRUE) ) {
                   n <- sum(table(eval(inputVar1()),eval(inputVar2())))
                   p <- n/100
@@ -126,27 +109,21 @@ runApp(list(
     })
     
     output$caption2 <- renderText({
-      
       if ( (input$bivariate==FALSE) & (is.factor(eval(inputVar1()))==TRUE) ) {
         caption2 <- "Univariate Table"
       } else {
-        
         if ( (input$bivariate==FALSE) & (is.numeric(eval(inputVar1()))==TRUE) ) {
           caption2 <- "Univariate Summary"
         } else {
-          
           if ( (input$bivariate==TRUE) & (is.factor(eval(inputVar1()))==TRUE) & (is.factor(eval(inputVar2()))==TRUE) ) {
             captions2 <- "Bivariate Table"
           } else {
-            
             if ( (input$bivariate==TRUE) & (is.numeric(eval(inputVar1()))==TRUE) & (is.numeric(eval(inputVar2()))==TRUE) ) {
               caption2 <- "Numeric Summary First Variable"
             } else {
-              
               if ( (input$bivariate==TRUE) & (is.factor(eval(inputVar1()))==TRUE) & (is.numeric(eval(inputVar2()))==TRUE) ) {
                 caption2 <- "Numeric Summary By Factor"
-              } else { 
-                
+              } else {
                 if ( (input$bivariate==TRUE) & (is.numeric(eval(inputVar1()))==TRUE) & (is.factor(eval(inputVar2()))==TRUE) ) {
                   caption2 <- "Numeric Summary By Factor"
                 }
@@ -159,27 +136,21 @@ runApp(list(
     })
     
     output$out2 <- renderPrint({
-      
       if ( (input$bivariate==FALSE) & (is.factor(eval(inputVar1()))==TRUE) ) {
         table(eval(inputVar1()))
       } else {
-        
         if ( (input$bivariate==FALSE) & (is.numeric(eval(inputVar1()))==TRUE) ) {
           summary(eval(inputVar1()))
         } else {
-          
           if ( (input$bivariate==TRUE) & (is.factor(eval(inputVar1()))==TRUE) & (is.factor(eval(inputVar2()))==TRUE) ) {
             table(eval(inputVar1()), eval(inputVar2()))
           } else {
-            
             if ( (input$bivariate==TRUE) & (is.numeric(eval(inputVar1()))==TRUE) & (is.numeric(eval(inputVar2()))==TRUE) ) {
               summary(eval(inputVar1()))
             } else {
-              
               if ( (input$bivariate==TRUE) & (is.factor(eval(inputVar1()))==TRUE) & (is.numeric(eval(inputVar2()))==TRUE) ) {
                 by(eval(inputVar2()), eval(inputVar1()), summary)
-              } else { 
-                
+              } else {
                 if ( (input$bivariate==TRUE) & (is.numeric(eval(inputVar1()))==TRUE) & (is.factor(eval(inputVar2()))==TRUE) ) {
                   by(eval(inputVar1()), eval(inputVar2()), summary)
                 }
@@ -192,27 +163,21 @@ runApp(list(
     })
     
     output$caption3 <- renderText({
-      
       if ( (input$bivariate==FALSE) & (is.factor(eval(inputVar1()))==TRUE) ) {
         caption3 <- "Univariate Table of Proportions"
       } else {
-        
         if ( (input$bivariate==FALSE) & (is.numeric(eval(inputVar1()))==TRUE) ) {
           caption3 <- ""
         } else {
-          
           if ( (input$bivariate==TRUE) & (is.factor(eval(inputVar1()))==TRUE) & (is.factor(eval(inputVar2()))==TRUE) ) {
             captions3 <- "Bivariate Table of Row Proportions"
           } else {
-            
             if ( (input$bivariate==TRUE) & (is.numeric(eval(inputVar1()))==TRUE) & (is.numeric(eval(inputVar2()))==TRUE) ) {
               caption3 <- "Numeric Summary Second Variable"
             } else {
-              
               if ( (input$bivariate==TRUE) & (is.factor(eval(inputVar1()))==TRUE) & (is.numeric(eval(inputVar2()))==TRUE) ) {
                 caption3 <- "Kruskal Wallis Test"
-              } else { 
-                
+              } else {
                 if ( (input$bivariate==TRUE) & (is.numeric(eval(inputVar1()))==TRUE) & (is.factor(eval(inputVar2()))==TRUE) ) {
                   caption3 <- "Kruskal Wallis Test"
                 }

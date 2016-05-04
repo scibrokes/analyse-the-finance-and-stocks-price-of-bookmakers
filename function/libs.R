@@ -16,19 +16,20 @@ suppressMessages(library('BBmisc'))
 #'@ library(c('dplyrr', 'nycflights13'))
 
 ## Loading multiple packages at once
-pkgs <- c('devtools', 'zoo', 'chron', 'stringr', 'reshape', 'reshape2', 'data.table', 'sparkline', 'stringdist',
-          'DT', 'plyr', 'dplyr', 'purrr', 'magrittr', 'foreach', 'manipulate', 'ggplot2', 'PerformanceAnalytics',
-          'highlightHTML', 'knitr', 'rmarkdown', 'scales', 'lubridate', 'tidyr', 'whisker', 'gtable', 'grid',
-          'doParallel', 'gridExtra', 'googleCharts', 'googleVis', 'quantmod', 'TTR','farecast')
+pkgs <- c('devtools', 'stringr', 'reshape', 'reshape2', 'sparkline', 'DT', 'plyr', 'dplyr', 'purrr', 
+          'magrittr', 'foreach', 'knitr', 'rmarkdown', 'scales', 'lubridate', 'tidyr', 'memoise', 
+          'doParallel', 'rCharts', 'quantmod', 'TTR', 'farecast', 'shiny')
 suppressAll(lib(pkgs)); rm(pkgs)
 
 ## Creating a parallel computing Cluster and support functions.
 ## Preparing the parallel cluster using the cores
 doParallel::registerDoParallel(cores = 16)
-#'@ BiocParallel::register(MulticoreParam(workers=8))
 
-## Set the googleVis options first to change the behaviour of plot.gvis, so that only the chart 
+## Set the rCharts options first to change the behaviour of plot, so that only the chart 
 ##  component of the HTML file is written into the output file.
-op <- options(gvis.plot.tag='chart')
 
+
+## Load the functions
+funs <- c('adjust.R', 'global.R')
+l_ply(funs, function(x) source(paste0('function/', x))); rm(funs)
 

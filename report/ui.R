@@ -1,13 +1,8 @@
-suppressMessages(library('BBmisc'))
 pkgs <- c('shiny', 'shinythemes', 'shinyjs', 'shinyBS', 'shinydashboard', 'shinyAce', 'quantmod', 
           'TTR', 'plyr', 'dplyr', 'magrittr', 'stringr', 'purrr', 'googleCharts', 'lubridate', 
           'googleVis', 'DT', 'sparkline', 'zoo', 'doParallel')
+suppressMessages(l_ply(pkgs, require, character.only = TRUE, quietly = TRUE))
 rm(pkgs)
-
-tickers <- c('BET', 'BOTB', 'BPTY', 'WMH', 'SPO', '888', 'NPT', 'PTEC', 'PCGE', 'TTR', 'GVC', 'WEB', 
-             'BOX', 'RNK', 'LAD', 'STR', 'LVS', 'TNI', 'WYNN', 'MGM', 'MPEL', 'MCRI', 'GXYEY', 'BYD', 
-             'GIGNY', 'CACQ', 'PENN', 'GEBHY', 'WYNMF', 'CWLDY', 'SCHYF', 'SKYZF', 'MCHVY', 'EGT', 
-             'GPIC', 'SGMS', 'NGCRF', 'TACBY', 'IGT', 'GDEN', 'ISLE', 'GLXZ', 'SJMHF', 'PDSSF', 'PNK') %>% sort
 
 ## =================================================================================
 messageData <- data_frame(from=c('Sayaka', '鬼塚先生', '小松拓也'), 
@@ -37,7 +32,7 @@ ui <- dashboardPage(
                                           src='https://avatars0.githubusercontent.com/u/13562894?v=3&s=200')
                           )
                   )
-                  ),
+  ),
   ## Sidebar content
   dashboardSidebar(
     sidebarMenu(
@@ -108,13 +103,12 @@ ui <- dashboardPage(
                   mainPanel(
                     tabsetPanel( #tabBox(
                       tabPanel('Data', h4('Stock Price Table'), 
-                               textOutput('textOut'), DT::dataTableOutput('table1'), 
-                               downloadButton('downloadData', 'Download')),
+                               textOutput('textOut'), DT::dataTableOutput('table1')),
                       tabPanel('Summary', htmlOutput('data')),
                       tabPanel('Candle-Stick', h4('Stock Price Graph'), htmlOutput('gvis')),
                       tabPanel('Line-chart', htmlOutput('gvis')),
                       tabPanel('Comp', helpText('test')))
-                    )))),
+                  )))),
       # 9th tab content
       tabItem(tabName = 'finance',
               h2('Financial Report'),
@@ -145,6 +139,6 @@ ui <- dashboardPage(
                        HTML('<iframe src=\"https://englianhu.files.wordpress.com/2016/03/financial-statements-a-step-by-step-guide-to-understanding-and-creating-financial-reports.pdf" width=\"900\" height=\"600\"></iframe>')),
               imageOutput('imp_pdf', width='500px', height='500px'),
               HTML("<a href='http://vnijs.github.io/radiant/'>Radiant is a platform-independent browser-based interface for business analytics in R, based on the Shiny package</a>")
-              ))))
+      ))))
 
 

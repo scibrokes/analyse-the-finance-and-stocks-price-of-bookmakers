@@ -15,7 +15,7 @@ shinyUI(fluidPage(
       
       dateRangeInput("dates", 
                      "Date range",
-                     start = "2012-01-01", 
+                     start = "2013-01-01", 
                      end = as.character(Sys.Date())),
       
       actionButton("get", "Compare Stocks"),

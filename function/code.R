@@ -12757,37 +12757,23 @@ temp = rep.col(x * NA, len(probs))
 temp[k:len(x),] = runquantile(as.vector(coredata(x)), k, probs, endrule='trim')
 temp
 }
-spl <- function
-(
-s,
-delim = ','
-)
-{
-unlist(strsplit(s,delim))
-}
-join <- function
-(
-v,
-delim = ''
-)
-{
-paste(v,collapse=delim)
-}
-trim <- function
-(
-s
-)
-{
-s = sub(pattern = '^\\s+', replacement = '', x = s)
-sub(pattern = '\\s+$', replacement = '', x = s)
-}
-len <- function
-(
-x
-)
-{
-length(x)
-}
+spl <- function(s, delim = ',') {
+  unlist(strsplit(s, delim))
+  }
+
+join <- function(v, delim = '') {
+  paste(v,collapse=delim)
+  }
+
+trim <- function(s) {
+  s = sub(pattern = '^\\s+', replacement = '', x = s)
+  sub(pattern = '\\s+$', replacement = '', x = s)
+  }
+
+len <- function(x) {
+  length(x)
+  }
+
 lst <- function(
 ...
 )

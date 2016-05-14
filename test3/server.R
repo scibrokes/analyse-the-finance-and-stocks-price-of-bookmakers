@@ -18,7 +18,7 @@ shinyServer(function(input, output) {
   getData <- reactive(function() {  	
     cat('getData was called\n')
     data <- new.env()
-    for(symbol in str_replace_all(spl(toupper(input$symbols)), ' ', '')) {
+    for(symbol in spl(toupper(input$symbols), delim = "(,\\s+)|,")) {
       #'@ if(is.null(symbol_env[[symbol]]))
       if(identical(symbol_env[[symbol]], emptyenv()))
       ## http://shiny.rstudio.com/articles/validation.html
@@ -86,7 +86,6 @@ shinyServer(function(input, output) {
     plota.matplot(prices)
     plota.add.copyright()
   }
-  
   
   #*****************************************************************
   # Update plot(s) and table(s)

@@ -35,7 +35,7 @@ suppressMessages(source('function/libs.R'))
 #'@ tickers <- c('888', 'BET', 'BOTB', 'BOX', 'BPTY', 'BYD', 'CACQ', 'CWLDY', 'EGT', 'GDEN', 'GEBHY', 'GIGNY', 'GLXZ', 'GPIC', 'GVC', 'GXYEY', 'IGT', 'ISLE', 'LAD', 'LVS', 'MCHVY', 'MCRI', 'MGM', 'MPEL', 'NGCRF', 'NPT', 'PCGE', 'PDSSF', 'PENN', 'PNK', 'PTEC', 'RNK', 'SCHYF', 'SGMS', 'SJMHF', 'SKYZF', 'SPO', 'STR', 'TACBY', 'TNI', 'TTR', 'WEB', 'WMH', 'WYNMF', 'WYNN')
 
 ## Default dates[1]='2007-01-01' and dates[2]=as.character(Sys.Date())
-data <<- suppressAll(filterData(tickers))
+#'@ data <<- suppressAll(filterData(tickers))
 
 #'@ dates <- c(NA, paste0(year(Sys.Date())-1,'-12-31'))
 #'@ data <- getData(from=dates[1], to=dates[2])
@@ -95,7 +95,83 @@ gaming industry.
   You are welcome to browse over below *tiny shinyapps* to plot some stock counters.
   
 ```{r tinyapp, echo=FALSE, result='asis'}
-shinyApp(source('function/app.R'))
+# shinyApp(source('function/app.R'))
+suppressMessages(library('shiny'))
+suppressMessages(library('quantmod'))
+
+# Download data for a stock if needed, and return the data
+require_symbol <- function(symbol, envir = parent.frame()) {
+  if(is.null(envir[[symbol]]))
+    envir[[symbol]] = getSymbols(symbol, auto.assign = FALSE)
+  envir[[symbol]]
+  }
+
+ui <- shinyUI(
+  pageWithSidebar(
+    headerPanel("Stocks Market"), 
+    sidebarPanel(
+        p(strong("Stock Counters")),
+        textInput(inputId = "stock1", label = "Counter 01"),
+        textInput(inputId = "stock2", label = "Counter 02"),
+        textInput(inputId = "stock3", label = "Counter 03"),
+        textInput(inputId = "stock4", label = "Counter 04"),
+        textInput(inputId = "stock5", label = "Counter 05"),
+      selectInput(inputId = "chart_type", label = "Graph",
+                  choices = c("Candle-Sticks" = "candlesticks",
+                              "Match-Sticks" = "matchsticks",
+                              "Bar-Charts" = "bars",
+                              "Line-Charts" = "line")),
+        p(strong("Date Range (Descending from Latest)")), 
+        sliderInput(inputId = "time_num", label = "Number of Time Interval", 
+                    min = 1, max = 24, step = 1, value = 6), 
+        selectInput(inputId = "time_unit", 
+                    label = "Unit of Time Interval", 
+                    choices = c("Day" = "days", "Week" = "weeks", 
+                                "Month" = "months", "Year" = "years"), 
+                    selected = "Months")
+      #checkboxInput(inputId = "log_y", label = "log y axis", value = FALSE)
+      ), 
+    mainPanel(
+      conditionalPanel(condition = "input$stock1", br(), 
+                       div(plotOutput(outputId = "plot_1"))), 
+      conditionalPanel(condition = "input$stock2", br(), 
+                       div(plotOutput(outputId = "plot_2"))), 
+      conditionalPanel(condition = "input$stock3", br(), 
+                       div(plotOutput(outputId = "plot_3"))), 
+      conditionalPanel(condition = "input$stock4", br(), 
+                       div(plotOutput(outputId = "plot_4"))), 
+      conditionalPanel(condition = "input$stock5", br(), 
+                       div(plotOutput(outputId = "plot_5")))
+    )
+  )
+)
+
+server <- shinyServer(function(input, output) {
+  # Create an environment for storing data
+  symbol_env <- new.env()
+  
+  # Make a chart for a symbol, with the settings from the inputs
+  make_chart <- function(symbol) {
+    symbol_data <- require_symbol(symbol, symbol_env)
+    #TA_STR <- paste0()
+    chartSeries(symbol_data,
+                name       = symbol,
+                type       = input$chart_type,
+                subset     = paste("last", input$time_num, input$time_unit),
+                #log.scale = input$log_y,
+                theme      = "white")
+    }
+  observe({
+    output$plot_1 <- renderPlot( make_chart(input$stock1))
+    output$plot_2 <- renderPlot( make_chart(input$stock2))
+    output$plot_3 <- renderPlot( make_chart(input$stock3))
+    output$plot_4 <- renderPlot( make_chart(input$stock4))
+    output$plot_5 <- renderPlot( make_chart(input$stock5))
+  })
+  
+  })
+
+shinyApp(server, ui)
 ```
 
   Please click the link to view the *completed version* web-base report at `r HTML("<a href='http://www.google.com/webhp' target='_blank'><img align='right' alt='runApps' src='figure/runApps.jpg'/></a>")`.
@@ -204,6 +280,7 @@ Sys.info()
   29) [Dekalog (2012) - *Unbelievable and Amazing R Shiny–Web Parameter Test in 1.5 Hours*](http://timelyportfolio.blogspot.my/2012/11/unbelievable-and-amazing-r-shinyweb.html)
   30) [®Studio Shiny Tutorial - *LESSON 6: Use reactive expressions*](http://shiny.rstudio.com/tutorial/lesson6/)
   31) [googleVis on shiny](https://github.com/mages/googleVis_on_shiny/blob/gh-pages/index.Rmd)
+  32) [获取股票信息的简单shiny接口](http://supstat.com.cn/blog/2014/12/03/a-simple-shiny-interface-to-retrieve-stock-information/)
 
 
 **Powered by - Copyright© Intellectual Property Rights of <img src='figure/oda-army.jpg' width='24'> [Scibrokes®](http://www.scibrokes.com)個人の経営企業**

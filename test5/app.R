@@ -1,8 +1,11 @@
 library(shiny)
 
-createNonReactiveTextInput <- function(id, label, value, 
-                                       button.label = '') {
-  
+spl <- function(s, delim = ',') {
+  unlist(strsplit(s, delim))
+}
+
+createNonReactiveTextInput <- function(id = id, label = label, 
+                                       value = strsplit(value, "(,\\s+)|,")[[1]], button.label = '') {
   value = lapply(substitute(value), function(x) as.character(x))
   
   if(button.label != '')
@@ -16,9 +19,10 @@ createNonReactiveTextInput <- function(id, label, value,
                                       "TempChange').click()}", sep = ''))), 
       div(
         tags$button(id = paste(id, "TempChange", sep=''), type = "button", 
-                    class = "btn btn-primary", onclick = paste("$('#", id, 
-                                                               "').val($('#", id, "Temp').val()).change();", 
-                                                               sep = ''), button.label)))
+                    class = "btn btn-primary", 
+                    onclick = paste("$('#", id, "').val($('#", 
+                                    id, "Temp').val()).change();", 
+                                    sep = ''), button.label)))
   else
     list(
       tagList(
@@ -244,7 +248,7 @@ server <- shinyServer(function(input, output) {
   getData <- reactive(function() {  	
     cat('getData was called\n')
     data <- new.env()
-    for(symbol in str_replace_all(spl(toupper(input$symbols)), ' ', '')) {
+    for(symbol in spl(toupper(input$symbols), delim = "(,\\s+)|,")) {
       #'@ if(is.null(symbol_env[[symbol]]))
       if(identical(symbol_env[[symbol]], emptyenv()))
       tryCatch({

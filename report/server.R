@@ -5,6 +5,8 @@ rm(pkgs)
 
 options(RCHART_TEMPLATE = 'Rickshaw.html', RCHART_LIB = 'morris') #RCHART_LIB = 'polycharts'
 
+# Create an environment for storing data
+symbol_env <- new.env()
 
 server <- shinyServer(
   function(input, output, session){

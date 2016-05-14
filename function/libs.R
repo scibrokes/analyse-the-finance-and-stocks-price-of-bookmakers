@@ -30,6 +30,6 @@ doParallel::registerDoParallel(cores = 16)
 
 
 ## Load the functions
-funs <- c('adjust.R', 'global.R')
-l_ply(funs, function(x) source(paste0('function/', x))); rm(funs)
+#'@ funs <- c('adjust.R', 'global.R')
+#'@ l_ply(funs, function(x) source(paste0('function/', x))); rm(funs)
 

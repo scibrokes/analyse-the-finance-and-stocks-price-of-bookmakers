@@ -1,7 +1,7 @@
 ---
-title: 'Analyse the Finance and Stocks Price of Bookmakers'
+title: "Analyse and Forecast the Revenue, Profit and Loss of Sports Bookmakers"
 author: "[®γσ, Eng Lian Hu](http://englianhu.wordpress.com) <img src='figure/ShirotoNorimichi.jpg' width='24'> 白戸則道®"
-date: '3/6/2016'
+date: "3/5/2016"
 output:
   html_document:
   fig_caption: yes
@@ -10,7 +10,6 @@ output:
   highlight: haddock
   theme: cerulean
   toc: yes
-runtime: shiny
 ---
 
 ```{r libs, message=FALSE, warning=FALSE, cache=TRUE, include=FALSE}
@@ -20,41 +19,31 @@ suppressMessages(library('utils'))
 suppressMessages(source('function/libs.R'))
 ```
 
-<http://timelyportfolio.github.io/rCharts_nyt_home_price/>
+
 
 ## Abtract
 
   Gaming is a large and economically important industry. Much research focuses on understanding gambler behavior. For example, you can refer to my previous [Punters Account Review (Agenda).xlsx](https://www.dropbox.com/sh/ifwczokjptt6re0/AADv1VarJoQ6IgIitZBzG5c6a?dl=0&preview=Punters+Account+Review+(Agenda).xlsx). The purpose of the research paper is trying to analse and forecast the revenue and profit of bookmakers as well as market shares. I seperates the research paper into 2 sections which are related to revenue, profit and loss of an operator in gambling industry:
-  
+
   - Analyse the revenue and profit of unnonymous bookmakers' products (due to confidential and privacy issue) in gambling market.
   - Analyse the revenue and profit as well as the stocks price of Public Listed European bookmakers.
 
-```{r collect data, include=FALSE}
+```{r read-data-summary-table, echo=FALSE, results='asis'}
 ## Read the datasets
-## Below tickers objects ommited since I use <<- inside preloaded file `global.R`.
-#'@ tickers <- c('888', 'BET', 'BOTB', 'BOX', 'BPTY', 'BYD', 'CACQ', 'CWLDY', 'EGT', 'GDEN', 'GEBHY', 'GIGNY', 'GLXZ', 'GPIC', 'GVC', 'GXYEY', 'IGT', 'ISLE', 'LAD', 'LVS', 'MCHVY', 'MCRI', 'MGM', 'MPEL', 'NGCRF', 'NPT', 'PCGE', 'PDSSF', 'PENN', 'PNK', 'PTEC', 'RNK', 'SCHYF', 'SGMS', 'SJMHF', 'SKYZF', 'SPO', 'STR', 'TACBY', 'TNI', 'TTR', 'WEB', 'WMH', 'WYNMF', 'WYNN')
 
-## Default dates[1]='2007-01-01' and dates[2]=as.character(Sys.Date())
-#'@ data <<- suppressAll(filterData(tickers))
-
-#'@ dates <- c(NA, paste0(year(Sys.Date())-1,'-12-31'))
-#'@ data <- getData(from=dates[1], to=dates[2])
 ```
 
-  However, few studies consider investment behavior in the gaming industry, which as a regulated industry we may expect to see variances from norms established in the general finance literature. [6]*Howard Reed (2013)* describe the economics and the impact of fixed odds betting industry.
+  Due to its very hard to get a free sample dataset. Here I use few unonymous companies revenue report as my sample for the paper.
 
 
 
 ## 1. Introduction
 
-  - [1.1 Introduction to Gaming Industry]
-  - [1.2 Introduction to Sports Bookmakers]
-    - [1.2.1 Introduction to Public Listed Sports Bookmakers]
-    - [1.2.2 Introduction to Other Sports Bookmakers]
-  - [1.3 Research on Gaming Industry]
+  * [1.1 Introduction to Gambling Market]
+  * [1.2 Introduction to Sportsbook Market]
 
-### 1.1 Introduction to Gaming Industry
 
+### 1.1 Introduction to Gambling Market
 
   For thousands of years, people have been playing games of chance or wagering on the outcomes of various games and events. Today, that activity often takes place at casinos, game parlors, bookmakers and—increasingly—online. The online gaming market represents one of the fastest growing segments of the gambling industry. H2 Gambling Capital, a leading supplier of data and market intelligence on the global gambling industry, puts the size of the global online gaming market at about US$21 billion, hitting US$30 billion by 2012. But that may be just a drop in the ocean, considering that some of the biggest potential markets—such as the U.S., China, Japan, and South Korea—still prohibit many forms of gambling over the Internet.
   
@@ -159,22 +148,7 @@ suppressMessages(source('function/libs.R'))
   From the companies stated above, we basically know some major operators and companies in sportsbook gambling industry. You are welcome to refer to my previous survey on few sports-bookmakers [Bookmakers Analysis.xlsx](https://www.dropbox.com/s/cxple3h0hpingmq/Bookmakers%20Analysis.xlsx?dl=0). The spreadsheet briefly survey and analyse but also compare some major bookmakers (The Excel file is quite large and you can download to browse over).
 
 
-### 1.2 Introduction to Sports Bookmakers
-
-#### 1.2.1 Introduction to Public Listed Sports Bookmakers
-
-  The sports bookmakers divided into two categories, which are traditional bankers and exchange-firm. You can refer to [2]*Fabián Enrique Moya (2012)* for more information from similarity and difference between them.
-  
-  - [3]*Alper Ozgit (2005)* : The author compile and analyze a dataset of National Basketball Association (NBA) games and find that both odds and net returns on the leading betting exchange (Betfair) are consistently higher than that of the two leading bookmakers (William Hill and Ladbrokes). These results are puzzling, since the bookmakers continue to be profitable. 'The bookie puzzle', the observation that bookies attract a lot of betting although better returns are available elsewhere is resolved through liquidity-based explanations. As the order size gets larger, the author find that:
-  
-    i)  The return differences vanish rapidly.
-    ii) Order flow migrates to the bookmakers, thereby justifying the presence of and the need for bookmakers.
-    
-  - [4]*NERA Economic Consulting (2014)* : The consultancy firm has analyse the financial report as well as the market shares of Ladbrokes PLC.
-  - [Soomla (Q4-2015) - *Mobile Gaming Data Report*](https://gallery.mailchimp.com/16ce1ff0bb24d9e70eb7b27eb/files/Soomla_2015_Q4_Mobile_Gaming_Data_Report.pdf) basically analyse the continental gamers for Android and iMac users as well as the gamers' consuming behaviour.
-  - [HM Revenue and Customs (2014) - *The UK betting and gaming market: estimating price elasticities of demand and understanding the use of promotions*](https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/322845/report313.pdf)
-
-#### 1.2.2 Introduction to Other Sports Bookmakers
+### 1.2 Introduction to Sportsbook Market
 
   One attraction of the online gaming market is its very high rate of growth. H2 Gambling Capital, one of the most widely quoted sources of online gaming statistics, says the market for global interactive gaming will grow about 42% to US$30 billion in 2012 from US$21.2 billion in 2008. This is significantly faster than the 15 percent growth that H2 forecasts for the gambling industry as a whole over the same period. The online gaming market is composed of a number of different types of games, each with its own business models and technology. They include:
   
@@ -190,33 +164,8 @@ suppressMessages(source('function/libs.R'))
   - [HM Revenue and Customs (2014) - *The UK betting and gaming market: estimating price elasticities of demand and understanding the use of promotions*](https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/322845/report313.pdf)
 
 
-### 1.3 Research on Gaming Industry
-
-  [1]*Linda Canina, Steven A. Carvell, Qingzhong Ma and Andrey D. Ukhov (2013)* brief some points of previous papers as below. The study examines mergers and acquisition activity in the gaming industry in a comprehensive data set covering thirty years of transactions. The long time series allows us to capture both the times of economic expansions and recessions. An interesting and active market exists for corporate control in the
-gaming industry.
-  
-  - *Hong & Hochan (2005); Moss, Ryan & Wagoner (2003); Mowen, Fang & Scott (2009); Soane, Dewberry & Narendran (2010); Thaler & Johnson (1990); Vong (2008)* : Much research focuses on understanding gambler behavior.
-  - *Braunlich (1996); Chhabra (2007); Kwan & McCartney (2005); Smeral (1998)* : In terms of the impact of gaming externalities on local communities and the economy we see that this industry has unique characteristics.
-  - *Canina (1996)* : Considers IPO behavior in the gaming sector, but more work is needed in this area. The present paper extends the understanding of the gaming industry's investment behavior by studying the pricing of mergers and acquisition (M&A) transactions involving gaming companies or gaming assets.
-  - *Jang & Young (2009); Smith (2006)* : The economic significance of M&A transactions in the gaming industry is substantial, especially considering the 3063 deals announced from the beginning of 1980 through 2009, with a total target value of $916,358 million and an average target value of $299 million. Focusing on one industry rather than all-inclusive study is important to obtain industry-relevant results and managerial implications.
-  - *Collins, Holcomb, Certo, Hitt & Lester (2009); Huyghebaert & Luypaert (2010); Kobeissi, Xian & Haizhi (2010); Pablo (2009)* : Specifically, acquisitions along with IPO's are methods for investors to monetize their investments through the public and private markets. Acquisitions may bring many benefits, but at the same time they involve substantial risk. Firms can eliminate competitive threats or gain economies of scale or market power through mergers. Firms lacking growth may undertake acquisitions to increase their growth rates. Managers propose that the rationale for an acquisition is an increase in value derived from a variety of sources, such as economies of scale and/or scope from the combined organization and the elimination of poor managerial practice.One of the fundamental reasons why two firms combine their resources is to create value by pursuing these potential synergies between them.
-  - *Lees (2003)* : Points out that the lack of value creation is an unanswered question when it comes to M&A. Some blame it on paying too much for an M&A deal or overvaluing the synergy effects while others blame it on the integration process and the fact that those who are responsible for the implementation are often not involved in the previous stages before the deal is made.
-  - *Hayward & Hambrick (1997); Morck, Shleifer & Vishny (1990)* : Researchers also explore how characteristics of the target selection and negotiation processes can lead to overpayment for a target by an acquirer, dooming the transaction from the very start. Since the value and realization of potential synergies are directly influenced by the price paid for the target firm, the main objective of this paper is to evaluate the pricing of gaming assets. Since overpayment may prevent firms and their investors from realizing acquisition benefits in the gaming industry, correct valuation of the target is a key factor in the M&A process.
-  - *Lee & We (2009)* : Correct valuation is a fundamental criterion of a successful merger as in all investment decisions, as long as the net present value (NPV) of an investment is positive value is enhanced. The NPV is simply the difference between the post merger value of the integrated firm (VC) and the sum of the paid acquisition price for the target firm (PT) and the value of the acquiring firm prior to the merger (VA). This difference, the NPV represents the value of the realized synergy. The total synergy value of a merger may differ from the realized synergy due to differences between the acquisition price of the target and the stand alone value of the target (VT). Total synergy equals the difference between the combined firm value (VC) and the sum of each individual firm value (VT + VA) where VT and VA are the stand alone values of the target and acquirer, respectively. The value of this difference includes the acquirer's valuation of control as well as operating and financial synergies. If the price paid for the target (PT) is less than the standalone value of the target (VT) plus the value of the total synergy, then the NPV will be positive, value is created and the merger is successful. However, if the price exceeds VT plus the value of the total synergy, value is destroyed.
-
-  You might try to measure, value and forecast based on the datasets if any.
-
 
 ## 2. Data
-
-  - [2.1 Financial Report of Public Listed Companies]
-  - [2.2 Profit and Loss Statement]
-
-### 2.1 Financial Report of Public Listed Companies
-
-  I get the financial data as well as the stocks price of few public listed companies for the research via `quantmod` r package. You can refer to [10]*Alberto González Paje (2013)* for further information.
-
-### 2.2 Profit and Loss Statement
 
   I tried to google'ing some sample data from below links for the paper. Unfortunately there has no any free sample dataset found. Meanwhile, the sample datasets via the below links might help for other research.
   
@@ -229,112 +178,39 @@ gaming industry.
   Here I use datasets of few unnonymous companies for this research paper. Similar with the [Betting-Strategy-and-Model-Validation](https://github.com/scibrokes/betting-strategy-and-model-validation), I just using firm1 and firm3 to term the companies in this paper. There are few organizations provides gambling license for online operators. For example : Gibraltar, Isle of Man, Minila, Ireland etc. You can try to refer to a sample website [Bookmaker's Licence - Guidelines on Licensing Requirements](http://www.revenue.ie/en/tax/excise/excise-licensing/bookmakers-licences-betting.html) but that is not the topic for this paper.
 
 
-## 3. Shinyapp's Report
 
+## 3. Shinyapp's Report
 
 
 ### 3.1 Shinyapp's Web-base Report
 
-  I tried to refer to [History of R Financial Time Series Plotting](https://timelyportfolio.github.io/rCharts_time_series/history.html). However it unable users to choose the stock counters and directly display the output by interactive mode. Therefore in order to easier to read an interactive report, here I display the data report on shinyapps website.
-  
-  You are welcome to browse over below *tiny shinyapps* to plot some stock counters.
-  
-```{r tinyapp, echo=FALSE, result='asis'}
-# shinyApp(source('function/app.R'))
-suppressMessages(library('shiny'))
-suppressMessages(library('quantmod'))
+  In order to easier to read the report, here I display the data report on shinyapps website. Please click the link to view the web-base report at []().
 
-# Download data for a stock if needed, and return the data
-require_symbol <- function(symbol, envir = parent.frame()) {
-  if(is.null(envir[[symbol]]))
-    envir[[symbol]] = getSymbols(symbol, auto.assign = FALSE)
-  envir[[symbol]]
-  }
 
-ui <- shinyUI(
-  pageWithSidebar(
-    headerPanel("Stocks Market"), 
-    sidebarPanel(
-        p(strong("Stock Counters")),
-        textInput(inputId = "stock1", label = "Counter 01"),
-        textInput(inputId = "stock2", label = "Counter 02"),
-        textInput(inputId = "stock3", label = "Counter 03"),
-        textInput(inputId = "stock4", label = "Counter 04"),
-        textInput(inputId = "stock5", label = "Counter 05"),
-      selectInput(inputId = "chart_type", label = "Graph",
-                  choices = c("Candle-Sticks" = "candlesticks",
-                              "Match-Sticks" = "matchsticks",
-                              "Bar-Charts" = "bars",
-                              "Line-Charts" = "line")),
-        p(strong("Date Range (Descending from Latest)")), 
-        sliderInput(inputId = "time_num", label = "Number of Time Interval", 
-                    min = 1, max = 24, step = 1, value = 6), 
-        selectInput(inputId = "time_unit", 
-                    label = "Unit of Time Interval", 
-                    choices = c("Day" = "days", "Week" = "weeks", 
-                                "Month" = "months", "Year" = "years"), 
-                    selected = "Months")
-      #checkboxInput(inputId = "log_y", label = "log y axis", value = FALSE)
-      ), 
-    mainPanel(
-      conditionalPanel(condition = "input$stock1", br(), 
-                       div(plotOutput(outputId = "plot_1"))), 
-      conditionalPanel(condition = "input$stock2", br(), 
-                       div(plotOutput(outputId = "plot_2"))), 
-      conditionalPanel(condition = "input$stock3", br(), 
-                       div(plotOutput(outputId = "plot_3"))), 
-      conditionalPanel(condition = "input$stock4", br(), 
-                       div(plotOutput(outputId = "plot_4"))), 
-      conditionalPanel(condition = "input$stock5", br(), 
-                       div(plotOutput(outputId = "plot_5")))
-    )
-  )
-)
+### 3.2 Setup Shiny Server and MySQL Server
 
-server <- shinyServer(function(input, output) {
-  # Create an environment for storing data
-  symbol_env <- new.env()
-  
-  # Make a chart for a symbol, with the settings from the inputs
-  make_chart <- function(symbol) {
-    symbol_data <- require_symbol(symbol, symbol_env)
-    #TA_STR <- paste0()
-    chartSeries(symbol_data,
-                name       = symbol,
-                type       = input$chart_type,
-                subset     = paste("last", input$time_num, input$time_unit),
-                #log.scale = input$log_y,
-                theme      = "white")
-    }
-  observe({
-    output$plot_1 <- renderPlot( make_chart(input$stock1))
-    output$plot_2 <- renderPlot( make_chart(input$stock2))
-    output$plot_3 <- renderPlot( make_chart(input$stock3))
-    output$plot_4 <- renderPlot( make_chart(input$stock4))
-    output$plot_5 <- renderPlot( make_chart(input$stock5))
-  })
-  
-  })
+  Kindly refer to my previous project [Setup ®Studio Server](https://github.com/scibrokes/setup-rstudio-server) in order to setup shiny server. Here I am sharing how to setup a MySQL server database on [Digital Ocean](https://m.do.co/c/aabb124120d0). You might feel free to setup yours.
 
-shinyApp(server, ui)
+  I tried to `$ sudo yum install -y mysql-server` but doesn't work. Well, firstly you need to browse over <http://dev.mysql.com/downloads/repo/yum/> and get the link of latest version of MySQL server.
+
+```
+$ wgets http://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.rpm
+$ sudo yum install -y mysql57-community-release-el7-7.noarch.rpm
+$ sudo rm mysql57-community-release-el7-7.noarch.rpm
 ```
 
-  Please click the link to view the *completed version* web-base report at `r HTML("<a href='http://www.google.com/webhp' target='_blank'><img align='right' alt='runApps' src='figure/runApps.jpg'/></a>")`.
-  
-  You can also simply `shiny::runGitHub('scibrokes/report')` or `shiny::runApp('report')`.
-  
-  [財經開放數據平台Stock AI和R分析介面](http://success.wp.shu.edu.tw/1050323%EF%BC%9A%E8%B2%A1%E7%B6%93%E9%96%8B%E6%94%BE%E6%95%B8%E6%93%9A%E5%B9%B3%E5%8F%B0stock-ai%E5%92%8Cr%E5%88%86%E6%9E%90%E4%BB%8B%E9%9D%A2/)
-  [12]*Financial Statements A Step-by-Step Guide to Understanding and Creating Financial Reports*...
-...
-...
+  You might need to grant permission by `$ sudo chmod 777 [your path]` if you faced permission denied issue. Now you need to start MySQL server.
 
-**Draft (temp reference, will delete)**
+```
+$ sudo 
+```
 
-  - [get financial report](http://quant.stackexchange.com/questions/20642/original-fundamental-accounting-data-not-ratios)
-  - <https://github.com/rstudio/shiny-examples>
-  - [Building Shiny apps - an interactive tutorial](http://deanattali.com/blog/building-shiny-apps-tutorial/?utm_medium=referral&utm_source=zeef.com&utm_campaign=ZEEF)
-...
-...
+  You can `$ sudo yum-complete-transaction -y mysql-server` if needed.
+
+draft
+<http://www.cyberciti.biz/faq/how-to-install-mysql-under-rhel/>
+<http://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.rpm>
+<https://www.linode.com/docs/databases/mysql/how-to-install-mysql-on-centos-6>
 
 
 
@@ -350,14 +226,14 @@ shinyApp(server, ui)
    
   It's useful to record some information about how your file was created.
    
-  * File creation date: 2016-03-06
+  * File creation date: 2016-03-05
   * `r R.version.string`
   * R version (short form): `r getRversion()`
   * `rmarkdown` package version: `r packageVersion('rmarkdown')`
   * File version: 1.0.0
   * File latest updated date: `r Sys.Date()`
   * Author Profile: [®γσ, Eng Lian Hu](https://rpubs.com/englianhu/ryoeng)
-  * GitHub: [Source Code](https://github.com/scibrokes/analyse-the-finance-and-stocks-price-of-bookmakers)
+  * GitHub: [Source Code](https://github.com/scibrokes/analyse-and-forecast-the-revenue-profit-and-loss-of-sports-bookmakers)
   * Additional session information
   
 ```{r info, echo=FALSE, results='asis'}
@@ -369,18 +245,18 @@ Sys.info()
    
 ### 4.2 Versions' Log
    
-  - File version: 1.0.0
-  - file created
-  - ...
-  - File version: 1.0.1
-  - ...
-  - File version: 1.0.2 - *'2015-11-22 09:41:49 JST'*
-  - ...
+ - File version: 1.0.0
+ - file created
+ - ...
+ - File version: 1.0.1
+ - ...
+ - File version: 1.0.2 - *"2015-11-22 09:41:49 JST"*
+   - ...
    
    
 ### 4.3 Speech and Blooper
    
-  There are quite some errors when I **knit HTML**:
+ There are quite some errors when I **knit HTML**:
      
   * ...
   * ...
@@ -389,49 +265,20 @@ Sys.info()
 ### 4.4 References
 
 ####  Reference for industry knowdelege and academic research portion for the paper.
-
-  1) [Linda Canina, Steven A. Carvell, Qingzhong Ma and Andrey D. Ukhov (2013) - *Business Cycle and Asset Valuation in the Gaming Industry*](http://scholarship.sha.cornell.edu/cgi/viewcontent.cgi?article=1420&context=articles)
-  2) [Fabián Enrique Moya (2012) - *Statistical Methodology for Profitable Sports Gambling*](https://www.stat.sfu.ca/content/dam/sfu/stat/alumnitheses/2012/FabianMoyaFinalVersion.pdf)
-  3) [Alper Ozgit (2005) - *The Bookie Puzzle: Auction versus Dealer Markets in Online Sports Betting*](http://levine.sscnet.ucla.edu/archive/refs4782713000000000011.pdf)
-  4) [NERA Economic Consulting (2014) - *The Stake of the Nation - Balancing the Bookies*](http://fairergambling.org/wp-content/uploads/2014/04/nera-report-040414.pdf)
-  5) [Sports betting and advertising AGRC Discussion Paper (No4 November 2014) - *The growth of sports betting in Australia*](https://aifs.gov.au/agrc/publications/sports-betting-and-advertising/growth-sports-betting-australia)
-  6) [Howard Reed (2013) - *The Economic Impact of Fixed Odds Betting Terminals*](http://fairergambling.org/wp-content/uploads/2012/11/The-Economic-Impact-of-Fixed-Odds-Betting-Terminals.pdf)
-  7) [Ministry of Health Victoria, BC (2013) - *Lower the Stakes : A Public Health Approach to Gambling in British Columbia*](http://www2.gov.bc.ca/assets/gov/health/about-bc-s-health-care-system/office-of-the-provincial-health-officer/reports-publications/annual-reports/gambling-in-bc.pdf)
-  8) [Jeffrey A. Ryan (2008) - *Quantitative Financial Modelling & Trading Framework for R*](http://www.quantmod.com/examples/intro/)
-  9) [Jitender Aswani (2012) - *Pull Yahoo Finance Key-Statistics Instantaneously Using XML and XPath in R*](http://allthingsr.blogspot.my/2012/10/pull-yahoo-finance-key-statistics.html)
-  10) [Alberto González Paje (2013) - *Corporate financial performance using Quantmod*](http://www.ekonlab.com/r_tutorials/finance_data_quantmod/financia_performance.html)
-  11) [The R Trader - The R Trader Blog](http://www.thertrader.com/)
-  12) [Financial Statements A Step-by-Step Guide to Understanding and Creating Financial Reports](https://englianhu.files.wordpress.com/2016/03/financial-statements-a-step-by-step-guide-to-understanding-and-creating-financial-reports.pdf)
-  13) [History of R Financial Time Series Plotting](https://timelyportfolio.github.io/rCharts_time_series/history.html)
-  14) [財經開放數據平台Stock AI和R分析介面](http://success.wp.shu.edu.tw/1050323%EF%BC%9A%E8%B2%A1%E7%B6%93%E9%96%8B%E6%94%BE%E6%95%B8%E6%93%9A%E5%B9%B3%E5%8F%B0stock-ai%E5%92%8Cr%E5%88%86%E6%9E%90%E4%BB%8B%E9%9D%A2/)
-  15) [Mark Summerfield and Wade Loo (2010) - *Online Gaming - A Gamble or a Sure Bet?*](https://www.kpmg.com/EU/en/Documents/Online-Gaming.pdf)
-  16) [Sports betting and advertising AGRC Discussion Paper (No.4 November 2014) - *The growth of sports betting in Australia*](https://aifs.gov.au/agrc/publications/sports-betting-and-advertising/growth-sports-betting-australia)
-  17) [Jeremy Sandford & Paul Shea (2011) - *Optimal setting of point spreads*](http://gatton.uky.edu/faculty/sandford/chicken.pdf)
+  
+  1) []()
+  2) [Mark Summerfield and Wade Loo (2010) - *Online Gaming - A Gamble or a Sure Bet?*](https://www.kpmg.com/EU/en/Documents/Online-Gaming.pdf)
+  3) [Sports betting and advertising AGRC Discussion Paper (No.4 November 2014) - *The growth of sports betting in Australia*](https://aifs.gov.au/agrc/publications/sports-betting-and-advertising/growth-sports-betting-australia)
+  4) [Jeremy Sandford & Paul Shea (2011) - *Optimal setting of point spreads*](http://gatton.uky.edu/faculty/sandford/chicken.pdf)
 
 ####  Reference for technical research on programming and coding portion for the paper.
-
-  13) [E-Commerce Retail Sales](https://datamarket.com/data/set/1kcw/e-commerce-retail-sales#!ds=1kcw&display=line)
-  14) [HTML element reference](https://developer.mozilla.org/en-US/docs/Web/HTML/Element)
-  15) [W3Schools HTML Element Reference](http://www.w3schools.com/tags/default.asp)
-  16) [W3Schools HTML 系列教程](http://www.w3school.com.cn/h.asp)
-  17) [Shiny Tutorial](http://shiny.rstudio.com/tutorial/)
-  18) [Shiny Tutorial (Old)](http://rstudio.github.io/shiny/tutorial/)
-  19) [Data-Driven Documents](https://d3js.org/)
-  20) [Interactive Graphics with ggplot2+gridSVG](http://sachsmc.github.io/UseR2015-Talk)
-  21) [Structural Equation Modeling with R](https://github.com/cardiomoon/r-sem)
-  22) [Building interactive web apps with Shiny](http://www.r-bloggers.com/building-interactive-web-apps-with-shiny/)
-  23) [Shiny ®Studio Gallery](http://shiny.rstudio.com/gallery/)
-  24) [SHOW ME SHINY - GALLERY OF R WEB APPS](http://www.showmeshiny.com/)
-  25) [Building Shiny apps - an interactive tutorial](http://deanattali.com/blog/building-shiny-apps-tutorial/?utm_medium=referral&utm_source=zeef.com&utm_campaign=ZEEF)
-  26) [The R Trader - The R Trader Blog](http://www.thertrader.com/)
-  27) [ShinyApps: Experience Statistics](http://shinyapps.org/)
-  29) [Dekalog (2012) - *Unbelievable and Amazing R Shiny–Web Parameter Test in 1.5 Hours*](http://timelyportfolio.blogspot.my/2012/11/unbelievable-and-amazing-r-shinyweb.html)
-  30) [®Studio Shiny Tutorial - *LESSON 6: Use reactive expressions*](http://shiny.rstudio.com/tutorial/lesson6/)
-  31) [googleVis on shiny](https://github.com/mages/googleVis_on_shiny/blob/gh-pages/index.Rmd)
-  32) [获取股票信息的简单shiny接口](http://supstat.com.cn/blog/2014/12/03/a-simple-shiny-interface-to-retrieve-stock-information/)
-  33) [E-Commerce Retail Sales](https://datamarket.com/data/set/1kcw/e-commerce-retail-sales#!ds=1kcw&display=line)
-
-
+  
+  4) [E-Commerce Retail Sales](https://datamarket.com/data/set/1kcw/e-commerce-retail-sales#!ds=1kcw&display=line)
+  5) [Justin Ellingwood (2013) - *How To Create and Manage Databases in MySQL and MariaDB on a Cloud Server*](https://www.digitalocean.com/community/tutorials/how-to-create-and-manage-databases-in-mysql-and-mariadb-on-a-cloud-server)
+  6) [Etel Sverdlov (2012) - *A Basic MySQL Tutorial*](https://www.digitalocean.com/community/tutorials/a-basic-mysql-tutorial)
+  7) [Etel Sverdlov (2012) - *How To Create a New User and Grant Permissions in MySQL*](https://www.digitalocean.com/community/tutorials/how-to-create-a-new-user-and-grant-permissions-in-mysql)
+  8) 
+     
 **Powered by - Copyright© Intellectual Property Rights of <img src='figure/oda-army.jpg' width='24'> [Scibrokes®](http://www.scibrokes.com)個人の経営企業**
 
 

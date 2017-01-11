@@ -3,69 +3,20 @@ title: "Untitled"
 author: "®γσ, Eng Lian Hu"
 date: "8/3/2016"
 output: html_document
-runtime: shiny
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-library('BBmisc')
-pkgs <- c('shiny', 'quantmod', 'quantmod', 'TTR', 'plyr', 'dplyr', 'magrittr', 'googleVis', 'lubridate')
-lib(pkgs); rm(pkgs)
-```
+1
 
-This R Markdown document is made interactive using Shiny. Unlike the more traditional workflow of creating static reports, you can now create documents that allow your readers to change the assumptions underlying your analysis and see the results immediately. 
+<iframe width="525" height="371" src="//e.issuu.com/embed.html#0/39717945" frameborder="0" allowfullscreen></iframe>
 
-To learn more, see [Interactive Documents](http://rmarkdown.rstudio.com/authoring_shiny.html).
+2
 
-## Inputs and Outputs
+chrome-extension://oemmndcbldboiebfnladdacbdfmadadm/https://raw.githubusercontent.com/scibrokes/odds-modelling-and-testing-inefficiency-of-sports-bookmakers/master/Odds%20Modelling%20and%20Testing%20Inefficiency%20of%20Sports-Bookmakers/Odds_Modelling_and_Testing_Inefficiency_of_Sports-Bookmakers.pdf
 
-You can embed Shiny inputs and outputs in your document. Outputs are automatically updated whenever inputs change.  This demonstrates how a standard R plot can be made interactive by wrapping it in the Shiny `renderPlot` function. The `selectInput` and `sliderInput` functions create the input widgets used to drive the plot.
+3
 
-testing...
+<iframe src="https://github.com/scibrokes/odds-modelling-and-testing-inefficiency-of-sports-bookmakers/blob/master/Odds%20Modelling%20and%20Testing%20Inefficiency%20of%20Sports-Bookmakers/Odds_Modelling_and_Testing_Inefficiency_of_Sports-Bookmakers.pdf" style="width:650px; height:500px;" frameborder="0"></iframe>
 
-testing candlestick charts...
+4
 
-```{r, echo=FALSE, results='asis'}
-op <- options(gvis.plot.tag='chart')
-tickers <- c('BET', 'BOTB', 'BPTY', 'WMH', 'SPO', '888', 'NPT', 'PTEC', 'PCGE', 'TTR', 'GVC', 'WEB', 
-             'BOX', 'RNK', 'LAD', 'STR', 'LVS', 'TNI', 'WYNN', 'MGM', 'MPEL', 'MCRI', 'GXYEY', 'BYD', 
-             'GIGNY', 'CACQ', 'PENN', 'GEBHY', 'WYNMF', 'CWLDY', 'SCHYF', 'SKYZF', 'MCHVY', 'EGT', 
-             'GPIC', 'SGMS', 'NGCRF', 'TACBY', 'IGT', 'GDEN', 'ISLE', 'GLXZ', 'SJMHF', 'PDSSF', 'PNK') %>% sort
-input <- list()
-input <- list(date=c('2013-10-01', '2014-01-01'), counter=sample(c(0, 1), length(tickers), replace=TRUE))
-
-data <- llply(tickers[input$counter==1], function(x) {
-      y = data.frame(Com=x, as.data.frame(tryCatch(suppressAll(getSymbols(Symbols = x, src = 'google', 
-          auto.assign = FALSE)), error = function(e) data.frame(Open=NA, High=NA, Low=NA, Close=NA, Volume=NA)))); 
-      if(nrow(na.omit(y))==0) {
-        y = data.frame(Com=x, as.data.frame(
-          tryCatch(suppressAll(getSymbols(Symbols = x, src = 'yahoo', 
-                                          # from = input$dates[1], to = input$dates[2], 
-                                          auto.assign = FALSE)), 
-                   error = function(e) data.frame(Open=NA, High=NA, Low=NA, Close=NA, Volume=NA))))
-        }else{
-          y %<>% mutate(Date=ymd(rownames(.)), Weekday=factor(weekdays(Date)));
-          names(y) <- c('Com', 'Open', 'High', 'Low', 'Close', 'Volume', 'Date', 'Weekday')}; 
-      y}) %>% rbind_all %>% tbl_df %>% 
-      select(Date, Weekday, Com, Open, High, Low, Close, Volume) %>% mutate(Com=factor(Com)) %>% tryCatch(suppressAll(data %>% filter(Date >= input$dates[1] & Date <= input$dates[2])))
-    
-C1 <- gvisCandlestickChart(data, xvar="Weekday", low="Low", open="Open", close="Close",
-                                      high="High", options=list(legend='none', gvis.editor="Edit me!"))
-plot(C1)
-```
-
-### Test
-
-[Plotting multiple symbols with a reactive statement with chartSeries](http://stackoverflow.com/questions/31641704/plotting-multiple-symbols-with-a-reactive-statement-with-chartseries)
-
-```{r, echo=FALSE, results='asis'}
-# Show a tabset that includes a plot, summary, and
-# table view of the generated distribution
-mainPanel(
-  tabsetPanel(
-    tabPanel("Plot", plotOutput("plot")),
-    tabPanel("Summary", verbatimTextOutput("summary")),
-    tabPanel("Table", tableOutput("table"))
-  )
-)
-```
+<iframe src="https://raw.githubusercontent.com/scibrokes/odds-modelling-and-testing-inefficiency-of-sports-bookmakers/master/Odds%20Modelling%20and%20Testing%20Inefficiency%20of%20Sports-Bookmakers/Odds_Modelling_and_Testing_Inefficiency_of_Sports-Bookmakers.pdf" style="width:650px; height:500px;" frameborder="0"></iframe>

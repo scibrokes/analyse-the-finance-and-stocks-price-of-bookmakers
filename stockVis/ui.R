@@ -36,7 +36,7 @@ ui <- dashboardPage(
                                  tags$img(height = '20px', alt='Scibrokes Logo', align='right', 
                                           src='https://avatars0.githubusercontent.com/u/13562894?v=3&s=200')
                           )
-                  )
+                    )
                   ),
   ## Sidebar content
   dashboardSidebar(

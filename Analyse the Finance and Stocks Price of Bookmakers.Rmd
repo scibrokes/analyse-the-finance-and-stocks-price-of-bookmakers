@@ -231,7 +231,7 @@ gaming industry.
 
 ## 3. Shinyapp's Report
 
-
+You might feel free to use financial calculator in [Free Online Calculators](http://www.calculator.net/).
 
 ### 3.1 Shinyapp's Web-base Report
 
@@ -333,6 +333,8 @@ shinyApp(server, ui)
   - [get financial report](http://quant.stackexchange.com/questions/20642/original-fundamental-accounting-data-not-ratios)
   - <https://github.com/rstudio/shiny-examples>
   - [Building Shiny apps - an interactive tutorial](http://deanattali.com/blog/building-shiny-apps-tutorial/?utm_medium=referral&utm_source=zeef.com&utm_campaign=ZEEF)
+  - [Live Gaming Stock Tracker](https://www.gamblinginsider.com/stock-tracker.php)
+  - [Introducing fidlr: FInancial Data LoadeR](http://www.thertrader.com/2016/04/21/introducing-fidlr-financial-data-loader/)
 ...
 ...
 
@@ -430,6 +432,8 @@ Sys.info()
   31) [googleVis on shiny](https://github.com/mages/googleVis_on_shiny/blob/gh-pages/index.Rmd)
   32) [获取股票信息的简单shiny接口](http://supstat.com.cn/blog/2014/12/03/a-simple-shiny-interface-to-retrieve-stock-information/)
   33) [E-Commerce Retail Sales](https://datamarket.com/data/set/1kcw/e-commerce-retail-sales#!ds=1kcw&display=line)
+  34) [...](http://shinyapps.stat.ubc.ca/r-graph-catalog/)
+  35) [...](http://www.computerworld.com/article/3109890/data-analytics/these-r-packages-import-sports-weather-stock-data-and-more.html)
 
 
 **Powered by - Copyright© Intellectual Property Rights of <img src='figure/oda-army.jpg' width='24'> [Scibrokes®](http://www.scibrokes.com)個人の経営企業**

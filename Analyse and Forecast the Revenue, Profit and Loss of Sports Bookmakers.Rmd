@@ -277,7 +277,7 @@ Sys.info()
   5) [Justin Ellingwood (2013) - *How To Create and Manage Databases in MySQL and MariaDB on a Cloud Server*](https://www.digitalocean.com/community/tutorials/how-to-create-and-manage-databases-in-mysql-and-mariadb-on-a-cloud-server)
   6) [Etel Sverdlov (2012) - *A Basic MySQL Tutorial*](https://www.digitalocean.com/community/tutorials/a-basic-mysql-tutorial)
   7) [Etel Sverdlov (2012) - *How To Create a New User and Grant Permissions in MySQL*](https://www.digitalocean.com/community/tutorials/how-to-create-a-new-user-and-grant-permissions-in-mysql)
-  8) 
+  8) http://shinyapps.stat.ubc.ca/r-graph-catalog/
      
 **Powered by - Copyright© Intellectual Property Rights of <img src='figure/oda-army.jpg' width='24'> [Scibrokes®](http://www.scibrokes.com)個人の経営企業**
 

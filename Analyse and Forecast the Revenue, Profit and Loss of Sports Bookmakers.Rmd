@@ -212,6 +212,8 @@ draft
 <http://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.rpm>
 <https://www.linode.com/docs/databases/mysql/how-to-install-mysql-on-centos-6>
 
+Data visualization, a book content page.
+<http://54.225.166.221/arifulmondal/creditscoring>
 
 
 ## 4. Appendices

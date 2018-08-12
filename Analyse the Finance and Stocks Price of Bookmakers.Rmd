@@ -18,6 +18,7 @@ runtime: shiny
 ## Loading the packages and setting adjustment
 suppressMessages(library('utils'))
 suppressMessages(source('function/libs.R'))
+library('SharpeR') # Makozwitz portfolio Sharper ratio
 ```
 
 <http://timelyportfolio.github.io/rCharts_nyt_home_price/>
@@ -335,9 +336,12 @@ shinyApp(server, ui)
   - [Building Shiny apps - an interactive tutorial](http://deanattali.com/blog/building-shiny-apps-tutorial/?utm_medium=referral&utm_source=zeef.com&utm_campaign=ZEEF)
   - [Live Gaming Stock Tracker](https://www.gamblinginsider.com/stock-tracker.php)
   - [Introducing fidlr: FInancial Data LoadeR](http://www.thertrader.com/2016/04/21/introducing-fidlr-financial-data-loader/)
+  - [Optimizing Run Time for Large Universe](http://systematicinvestor.github.io/Optimizing-Run-Time-Large-Universe)
 ...
 ...
 
+Data visualization, a book content page.
+<http://54.225.166.221/arifulmondal/creditscoring>
 
 
 ## 4. Appendices
@@ -434,6 +438,7 @@ Sys.info()
   33) [E-Commerce Retail Sales](https://datamarket.com/data/set/1kcw/e-commerce-retail-sales#!ds=1kcw&display=line)
   34) [...](http://shinyapps.stat.ubc.ca/r-graph-catalog/)
   35) [...](http://www.computerworld.com/article/3109890/data-analytics/these-r-packages-import-sports-weather-stock-data-and-more.html)
+  36) [Simulating Multiple Asset Paths in R](https://www.r-bloggers.com/simulating-multiple-asset-paths-in-r/)
 
 
 **Powered by - Copyright© Intellectual Property Rights of <img src='figure/oda-army.jpg' width='24'> [Scibrokes®](http://www.scibrokes.com)個人の経営企業**

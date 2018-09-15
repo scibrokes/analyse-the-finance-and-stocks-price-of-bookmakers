@@ -103,15 +103,35 @@ chartJSRadar(dfm, main = 'Bookmakers Rating', maxScale = 10, showToolTipLabel=TR
 
 ![](www/caspo.jpg)
 
-かスポはうちのもと賭け屋。
+かスポはうちの元賭け屋、[GVC Holdings PLC](https://gvc-plc.com/)にみたいで、色々な賭け屋ウェブサイトがあります。
+
+- bwin-party
+- sportingbet
+- Ladbrokes-Coral
+- Gamebookers
+- Betboo
 
 ![](www/singbet.jpg)
 
+上の絵の中に、あるウェブサイトは「皇冠（スメラギ．カンムリ）」やシングベットを呼ばれます。下の絵は外国人は色々有名なアジアン賭け屋に研究した。
+
+- [SBOBet](https://www.sbobet.com/)
+- [MaxBet](http://www.maxbet.com/) [(元名前はIBCBet)](http://www.betwing.com/)
+- [SingBet1](http://hg8899.cm/)
+- [SingBet2](http://hg8899.cm/)
+- [AS3388](http://www.as3388.com/)(スタ．リザットのクライアントの中に一賭け屋です)
+
+もっと情報は[量化分析与投资基金](https://englianhu.wordpress.com/2018/08/23/%E9%87%8F%E5%8C%96%E5%88%86%E6%9E%90%E4%B8%8E%E6%8A%95%E8%B5%84%E5%9F%BA%E9%87%91/)に読んでください。
+
 ![](www/Screenshot_20180731-230538.png)
+
+何年前、色々な外国人の量化交易ファンドが1888Betに潰した。
 
 ```{r, message=FALSE, warning=FALSE}
 scdt <- readRDS('data/report.rds')
 ```
+
+残念です、サッカ．リーグの報告が僕カンボジアから帰ったん後消えた。
 
 ```{r, message=FALSE, warning=FALSE, eval=FALSE}
 #-------- eval=FALSE --------
@@ -133,6 +153,8 @@ scdt[[2]] %>% tryCatch({
 ```
 
 ## 賭け産品一覧
+
+9ヶ月の賭け産品リスト。これからの`PL`は。
 
 ```{r, message=FALSE, warning=FALSE}
 scdt[[1]] %>% ddply(.(Bet_Type), summarise, 
@@ -177,6 +199,10 @@ scdt[[2]][,-c(1:3)] %>%
 
 あの英国やアメリカや色々な外国人、量化交易のスポーツ.ヘッジファンド[Betting Strategy and Model Validation](https://github.com/scibrokes/betting-strategy-and-model-validation)数学で賭ける、いつまでも利益を得る。
 
+- [ATASS Sports](https://atass-sports.co.uk/)
+- [Star Lizard](https://www.starlizard.com/)
+- [Smart Odds](https://www.smartodds.co.uk/)
+
 ![](www/Screenshot_20180130-145534.png)
 
 ![](www/Screenshot_20180131-095908.png)
@@ -190,6 +216,17 @@ Rプログラミングを支える、毎日<img src='www/R_logo.png' width='20'>
 ![](www/R-tshirt.png)
 
 # 終わりに
+
+あの頃、僕はかスポで仕事してた、[®γσ, ENG LIAN HU](https://beta.rstudioconnect.com/content/3091/ryo-eng.html)に読みます。でも、全てのベット．スリプのデータがないし、統計学もわからないし。だから、OHLCのデータさえもないで、今統計学も使えるられないんです。高頻度取引の事が外国人の量化交易にまなんで、APIがいります。例え話、[4lowin](http://4lowin.com/)がAPIで賭け屋に接続します。
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/E9_eAm2tTns" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+**Smart Odds**の賭け儲ける報告、もっと情報を知りたいなら、[Betting Strategy and Model Validation](https://github.com/scibrokes/betting-strategy-and-model-validation)に読んでください。
+
+- 賭け屋：全てのデータが有ったら、統計学が使えなら、利益率が是非増える。
+- 量化交易のスポーツ.ヘッジファンド：全てのデータが有ったら、統計学が使えなら、是非お金を儲ける。
+
+もっと情報を知りたいなら、[Boffins -vs- Bookies (The Man Who Broke the World Leading Bookmakers)](https://englianhu.wordpress.com/sportsbook/boffins-vs-bookies-the-man-who-broke-the-world-leading-bookmakers/)と[富传奇色彩的博彩狙击公司EM2 (Expectation–Maximization)](https://englianhu.wordpress.com/sportsbook/%E5%AF%8C%E4%BC%A0%E5%A5%87%E8%89%B2%E5%BD%A9%E7%9A%84%E5%8D%9A%E5%BD%A9%E7%8B%99%E5%87%BB%E5%85%AC%E5%8F%B8em2-expectation-maximization/)に読んでください。
 
 [Analyse the Finance and Stocks Price of Bookmakers](https://github.com/scibrokes/analyse-the-finance-and-stocks-price-of-bookmakers)で色々な賭け屋を分析します。
 

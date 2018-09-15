@@ -13,7 +13,7 @@ output:
       smooth_scroll: yes
     highlight: haddock
     theme: cerulean
-runtime: shiny
+runtime: shiny_prerendered
 ---
 
 ```{r libs, message=FALSE, warning=FALSE, include=FALSE}
@@ -316,7 +316,7 @@ shinyApp(server, ui)
 
 Please click the link to view the *completed version* web-base report at `r HTML("<a href='http://www.google.com/webhp' target='_blank'><img align='right' alt='runApps' src='www/runApps.jpg'/></a>")`.
   
-You can also simply `shiny::runGitHub('scibrokes/report')` or `shiny::runApp('report')`.
+You can also simply `shiny::runGitHub('scibrokes/analyse-the-finance-and-stocks-price-of-bookmakers', subdir = 'report')` or `shiny::runApp('report')`.
   
 [財經開放數據平台Stock AI和R分析介面](http://success.wp.shu.edu.tw/1050323%EF%BC%9A%E8%B2%A1%E7%B6%93%E9%96%8B%E6%94%BE%E6%95%B8%E6%93%9A%E5%B9%B3%E5%8F%B0stock-ai%E5%92%8Cr%E5%88%86%E6%9E%90%E4%BB%8B%E9%9D%A2/)
 [12]*Financial Statements A Step-by-Step Guide to Understanding and Creating Financial Reports*...
@@ -424,9 +424,10 @@ rm(sys1, sys2)
 31) [googleVis on shiny](https://github.com/mages/googleVis_on_shiny/blob/gh-pages/index.Rmd)
 32) [获取股票信息的简单shiny接口](http://supstat.com.cn/blog/2014/12/03/a-simple-shiny-interface-to-retrieve-stock-information/)
 33) [E-Commerce Retail Sales](https://datamarket.com/data/set/1kcw/e-commerce-retail-sales#!ds=1kcw&display=line)
-34) [...](http://shinyapps.stat.ubc.ca/r-graph-catalog/)
-35) [...](http://www.computerworld.com/article/3109890/data-analytics/these-r-packages-import-sports-weather-stock-data-and-more.html)
+34) [R Graph Catalog](http://shinyapps.stat.ubc.ca/r-graph-catalog/)
+35) [These R packages import sports, weather, stock data and more](http://www.computerworld.com/article/3109890/data-analytics/these-r-packages-import-sports-weather-stock-data-and-more.html)
 36) [Simulating Multiple Asset Paths in R](https://www.r-bloggers.com/simulating-multiple-asset-paths-in-r/)
+37) [Prerendered Shiny Documents](https://rmarkdown.rstudio.com/authoring_shiny_prerendered.html)
 
 ---
 

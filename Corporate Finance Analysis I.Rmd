@@ -1,51 +1,48 @@
 ---
-title: "Analyse and Forecast the Revenue, Profit and Loss of Sports Bookmakers"
-author: "[®γσ, Eng Lian Hu](http://englianhu.wordpress.com) <img src='figure/ShirotoNorimichi.jpg' width='24'> 白戸則道®"
-date: "3/5/2016"
+title: "Corporate Finance Analysis I"
+subtitle: "Analyse and Forecast the Revenue, Profit and Loss of Sports Bookmakers"
+author: "[®γσ, Lian Hu](https://englianhu.github.io/) <img src='www/RYO.jpg' width='24'> <img src='www/RYU.jpg' width='24'> <img src='www/ENG.jpg' width='24'>®"
+date: "`r lubridate::today('Asia/Tokyo')`"
 output:
-  html_document:
-  fig_caption: yes
-  fig_height: 3
-  fig_width: 5
-  highlight: haddock
-  theme: cerulean
-  toc: yes
+  html_document: 
+    number_sections: yes
+    toc: yes
+    toc_depth: 4
+    toc_float:
+      collapsed: yes
+      smooth_scroll: yes
+    highlight: haddock
+    theme: cerulean
 ---
 
-```{r libs, message=FALSE, warning=FALSE, cache=TRUE, include=FALSE}
+```{r libs, message=FALSE, warning=FALSE, include=FALSE}
 ## Setup Options, Loading Required Libraries and Preparing Environment
 ## Loading the packages and setting adjustment
 suppressMessages(library('utils'))
-suppressMessages(source('function/libs.R'))
+suppressMessages(source('coding/function/libs.R'))
+suppressMessages(source('coding/function/getData.R'))
+suppressMessages(source('coding/function/readData.R'))
 ```
 
+# Abtract
 
+Gaming is a large and economically important industry. Much research focuses on understanding gambler behavior. For example, you can refer to my previous [Punters Account Review (Agenda).xlsx](https://www.dropbox.com/sh/ifwczokjptt6re0/AADv1VarJoQ6IgIitZBzG5c6a?dl=0&preview=Punters+Account+Review+(Agenda).xlsx). The purpose of the research paper is trying to analse and forecast the revenue and profit of bookmakers as well as market shares. I seperates the research paper into 2 sections which are related to revenue, profit and loss of an operator in gambling industry:
 
-## Abtract
-
-  Gaming is a large and economically important industry. Much research focuses on understanding gambler behavior. For example, you can refer to my previous [Punters Account Review (Agenda).xlsx](https://www.dropbox.com/sh/ifwczokjptt6re0/AADv1VarJoQ6IgIitZBzG5c6a?dl=0&preview=Punters+Account+Review+(Agenda).xlsx). The purpose of the research paper is trying to analse and forecast the revenue and profit of bookmakers as well as market shares. I seperates the research paper into 2 sections which are related to revenue, profit and loss of an operator in gambling industry:
-
-  - Analyse the revenue and profit of unnonymous bookmakers' products (due to confidential and privacy issue) in gambling market.
-  - Analyse the revenue and profit as well as the stocks price of Public Listed European bookmakers.
+- Analyse the revenue and profit of unnonymous bookmakers' products (due to confidential and privacy issue) in gambling market.
+- Analyse the revenue and profit as well as the stocks price of Public Listed European bookmakers.
 
 ```{r read-data-summary-table, echo=FALSE, results='asis'}
 ## Read the datasets
 
 ```
 
-  Due to its very hard to get a free sample dataset. Here I use few unonymous companies revenue report as my sample for the paper.
+Due to its very hard to get a free sample dataset. Here I use few unonymous companies revenue report as my sample for the paper.
 
+# Introduction
 
+## Introduction to Gambling Market
 
-## 1. Introduction
-
-  * [1.1 Introduction to Gambling Market]
-  * [1.2 Introduction to Sportsbook Market]
-
-
-### 1.1 Introduction to Gambling Market
-
-  For thousands of years, people have been playing games of chance or wagering on the outcomes of various games and events. Today, that activity often takes place at casinos, game parlors, bookmakers and—increasingly—online. The online gaming market represents one of the fastest growing segments of the gambling industry. H2 Gambling Capital, a leading supplier of data and market intelligence on the global gambling industry, puts the size of the global online gaming market at about US$21 billion, hitting US$30 billion by 2012. But that may be just a drop in the ocean, considering that some of the biggest potential markets—such as the U.S., China, Japan, and South Korea—still prohibit many forms of gambling over the Internet.
+For thousands of years, people have been playing games of chance or wagering on the outcomes of various games and events. Today, that activity often takes place at casinos, game parlors, bookmakers and—increasingly—online. The online gaming market represents one of the fastest growing segments of the gambling industry. H2 Gambling Capital, a leading supplier of data and market intelligence on the global gambling industry, puts the size of the global online gaming market at about US$21 billion, hitting US$30 billion by 2012. But that may be just a drop in the ocean, considering that some of the biggest potential markets—such as the U.S., China, Japan, and South Korea—still prohibit many forms of gambling over the Internet.
   
 | Continental Region        | Country             | Annual Gambling Amount      |                                                                                                                                                                                                                                                                                                                               Notes |
 |:-------------------------:|:-------------------:|:---------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
@@ -80,9 +77,9 @@ suppressMessages(source('function/libs.R'))
 |                           |                     |                             | • Still, its online gaming market is relatively small; online gaming losses are expected to make up just 5% of total gaming losses in Italy this year, compared to a rate of around 18 to 20% in the U.K., and 25% in countries such as Sweden.                                                                                     |
 | Africa                    | N/A                 | N/A                         |                                                                                                                                                                                                                                                                                                                                     |
 
-  *source1 : [ONLINE GAMING: A GAMBLE OR A SURE BET?](https://www.kpmg.com/EU/en/Documents/Online-Gaming.pdf)* and *source2 : [The growth of sports betting in Australia](https://aifs.gov.au/agrc/publications/sports-betting-and-advertising/growth-sports-betting-australia)*
+*source1 : [ONLINE GAMING: A GAMBLE OR A SURE BET?](https://www.kpmg.com/EU/en/Documents/Online-Gaming.pdf)* and *source2 : [The growth of sports betting in Australia](https://aifs.gov.au/agrc/publications/sports-betting-and-advertising/growth-sports-betting-australia)*
 
-  The information above and below might not up-to-date. However you can get the updated files through [Industry statistics](http://www.gamblingcommission.gov.uk/Gambling-data-analysis/statistics/Industry-statistics.aspx). The market shares of South East Asia is quite occupy a big portion around the World as I know from my previous job. Let say IBCBet, Mansion88, 188Bet, SBOBet etc started thier business from South East Asia. You can refer to my profile [®γσ, Eng Lian Hu](https://rpubs.com/englianhu/ryoeng) under author section at the bottom of the paper. Well, anyway here we try to look at some license business operators which conduct/provide service in gambling industry. Meanwhile, [](https://aifs.gov.au/agrc/publications/sports-betting-and-advertising/growth-sports-betting-australia)
+The information above and below might not up-to-date. However you can get the updated files through [Industry statistics](http://www.gamblingcommission.gov.uk/Gambling-data-analysis/statistics/Industry-statistics.aspx). The market shares of South East Asia is quite occupy a big portion around the World as I know from my previous job. Let say IBCBet, Mansion88, 188Bet, SBOBet etc started thier business from South East Asia. You can refer to my profile [®γσ, Eng Lian Hu](https://rpubs.com/englianhu/ryoeng) under author section at the bottom of the paper. Well, anyway here we try to look at some license business operators which conduct/provide service in gambling industry. Meanwhile, [](https://aifs.gov.au/agrc/publications/sports-betting-and-advertising/growth-sports-betting-australia)
 
 | Name                                  | Headquarters                             | Annual revenues (year)  |                                                                                                                                           Notes |
 |:-------------------------------------:|:----------------------------------------:|:-----------------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------:|
@@ -143,55 +140,49 @@ suppressMessages(source('function/libs.R'))
 | William Hill                          | Gibraltar and London, U.K. and Israel    | £963 million (2008)     | • Major chain of betting shops that operates primarily in the U.K. and Ireland.                                                                 |
 |                                       |                                          |                         | • Online efforts—William Hill Online—are through venture with software developer Playtech.                                                      |
 
-  *source : page 14 of [ONLINE GAMING: A GAMBLE OR A SURE BET?](https://www.kpmg.com/EU/en/Documents/Online-Gaming.pdf)*
+*source : page 14 of [ONLINE GAMING: A GAMBLE OR A SURE BET?](https://www.kpmg.com/EU/en/Documents/Online-Gaming.pdf)*
 
-  From the companies stated above, we basically know some major operators and companies in sportsbook gambling industry. You are welcome to refer to my previous survey on few sports-bookmakers [Bookmakers Analysis.xlsx](https://www.dropbox.com/s/cxple3h0hpingmq/Bookmakers%20Analysis.xlsx?dl=0). The spreadsheet briefly survey and analyse but also compare some major bookmakers (The Excel file is quite large and you can download to browse over).
+From the companies stated above, we basically know some major operators and companies in sportsbook gambling industry. You are welcome to refer to my previous survey on few sports-bookmakers [Bookmakers Analysis.xlsx](https://www.dropbox.com/s/cxple3h0hpingmq/Bookmakers%20Analysis.xlsx?dl=0). The spreadsheet briefly survey and analyse but also compare some major bookmakers (The Excel file is quite large and you can download to browse over).
 
 
-### 1.2 Introduction to Sportsbook Market
+### Introduction to Sportsbook Market
 
-  One attraction of the online gaming market is its very high rate of growth. H2 Gambling Capital, one of the most widely quoted sources of online gaming statistics, says the market for global interactive gaming will grow about 42% to US$30 billion in 2012 from US$21.2 billion in 2008. This is significantly faster than the 15 percent growth that H2 forecasts for the gambling industry as a whole over the same period. The online gaming market is composed of a number of different types of games, each with its own business models and technology. They include:
+One attraction of the online gaming market is its very high rate of growth. H2 Gambling Capital, one of the most widely quoted sources of online gaming statistics, says the market for global interactive gaming will grow about 42% to US$30 billion in 2012 from US$21.2 billion in 2008. This is significantly faster than the 15 percent growth that H2 forecasts for the gambling industry as a whole over the same period. The online gaming market is composed of a number of different types of games, each with its own business models and technology. They include:
   
-  - Sports betting : Betting on sporting events such as games, horse races, dog races, etc.
-  - Online poker : Like land-based (or traditional) poker, the provider often takes a commission from wagers, and may be less risky than other casino games.
-  - Casino games : Games of chance such as slot machines or roulette that operate the same as in a traditional casino.
-  - Online bingo : A web-based version of the ages-old game.
-  - Online lottery : Online versions of frequently government-sponsored lotteries.
+- Sports betting : Betting on sporting events such as games, horse races, dog races, etc.
+- Online poker : Like land-based (or traditional) poker, the provider often takes a commission from wagers, and may be less risky than other casino games.
+- Casino games : Games of chance such as slot machines or roulette that operate the same as in a traditional casino.
+- Online bingo : A web-based version of the ages-old game.
+- Online lottery : Online versions of frequently government-sponsored lotteries.
 
-  Due to the marketing strategy of firm1 and firm3 based on rebates upon staking. Below papers are research on marketing and might use for future research on some other sports bookmakers.
+Due to the marketing strategy of firm1 and firm3 based on rebates upon staking. Below papers are research on marketing and might use for future research on some other sports bookmakers.
   
-  - [Soomla (Q4-2015) - *Mobile Gaming Data Report*](https://gallery.mailchimp.com/16ce1ff0bb24d9e70eb7b27eb/files/Soomla_2015_Q4_Mobile_Gaming_Data_Report.pdf) basically analyse the continental gamers for Android and iMac users as well as the gamers' consuming behaviour.
-  - [HM Revenue and Customs (2014) - *The UK betting and gaming market: estimating price elasticities of demand and understanding the use of promotions*](https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/322845/report313.pdf)
+- [Soomla (Q4-2015) - *Mobile Gaming Data Report*](https://gallery.mailchimp.com/16ce1ff0bb24d9e70eb7b27eb/files/Soomla_2015_Q4_Mobile_Gaming_Data_Report.pdf) basically analyse the continental gamers for Android and iMac users as well as the gamers' consuming behaviour.
+- [HM Revenue and Customs (2014) - *The UK betting and gaming market: estimating price elasticities of demand and understanding the use of promotions*](https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/322845/report313.pdf)
 
+## Data
 
-
-## 2. Data
-
-  I tried to google'ing some sample data from below links for the paper. Unfortunately there has no any free sample dataset found. Meanwhile, the sample datasets via the below links might help for other research.
+I tried to google'ing some sample data from below links for the paper. Unfortunately there has no any free sample dataset found. Meanwhile, the sample datasets via the below links might help for other research.
   
-  - [datahub](https://datahub.io/dataset?tags=bookmakers)(You can found a lot of sample dataset if using keywords 'sports' etc.)
-  - [Revenue of selected sports betting companies in 2014 (in billion U.S. dollars)](http://www.statista.com/statistics/270757/revenue-sports-betting-companies/)(chargable to buy dataset)
-  - [GamblingData](http://gamblingdata.com)
-  - [Center for Gaming Research University Libraries : *Reports, Data Sets & Research Guides*](http://gaming.unlv.edu/reports.html)
-  - [Data Government UK](https://data.gov.uk/data/search)
+- [datahub](https://datahub.io/dataset?tags=bookmakers)(You can found a lot of sample dataset if using keywords 'sports' etc.)
+- [Revenue of selected sports betting companies in 2014 (in billion U.S. dollars)](http://www.statista.com/statistics/270757/revenue-sports-betting-companies/)(chargable to buy dataset)
+- [GamblingData](http://gamblingdata.com)
+- [Center for Gaming Research University Libraries : *Reports, Data Sets & Research Guides*](http://gaming.unlv.edu/reports.html)
+- [Data Government UK](https://data.gov.uk/data/search)
 
-  Here I use datasets of few unnonymous companies for this research paper. Similar with the [Betting-Strategy-and-Model-Validation](https://github.com/scibrokes/betting-strategy-and-model-validation), I just using firm1 and firm3 to term the companies in this paper. There are few organizations provides gambling license for online operators. For example : Gibraltar, Isle of Man, Minila, Ireland etc. You can try to refer to a sample website [Bookmaker's Licence - Guidelines on Licensing Requirements](http://www.revenue.ie/en/tax/excise/excise-licensing/bookmakers-licences-betting.html) but that is not the topic for this paper.
+Here I use datasets of few unnonymous companies for this research paper. Similar with the [Betting-Strategy-and-Model-Validation](https://github.com/scibrokes/betting-strategy-and-model-validation), I just using firm1 and firm3 to term the companies in this paper. There are few organizations provides gambling license for online operators. For example : Gibraltar, Isle of Man, Minila, Ireland etc. You can try to refer to a sample website [Bookmaker's Licence - Guidelines on Licensing Requirements](http://www.revenue.ie/en/tax/excise/excise-licensing/bookmakers-licences-betting.html) but that is not the topic for this paper.
 
+## Shinyapp's Report
 
+### Shinyapp's Web-base Report
 
-## 3. Shinyapp's Report
+In order to easier to read the report, here I display the data report on shinyapps website. Please click the link to view the web-base report at []().
 
+### Setup Shiny Server and MySQL Server
 
-### 3.1 Shinyapp's Web-base Report
+Kindly refer to my previous project [Setup ®Studio Server](https://github.com/scibrokes/setup-rstudio-server) in order to setup shiny server. Here I am sharing how to setup a MySQL server database on [Digital Ocean](https://m.do.co/c/aabb124120d0). You might feel free to setup yours.
 
-  In order to easier to read the report, here I display the data report on shinyapps website. Please click the link to view the web-base report at []().
-
-
-### 3.2 Setup Shiny Server and MySQL Server
-
-  Kindly refer to my previous project [Setup ®Studio Server](https://github.com/scibrokes/setup-rstudio-server) in order to setup shiny server. Here I am sharing how to setup a MySQL server database on [Digital Ocean](https://m.do.co/c/aabb124120d0). You might feel free to setup yours.
-
-  I tried to `$ sudo yum install -y mysql-server` but doesn't work. Well, firstly you need to browse over <http://dev.mysql.com/downloads/repo/yum/> and get the link of latest version of MySQL server.
+I tried to `$ sudo yum install -y mysql-server` but doesn't work. Well, firstly you need to browse over <http://dev.mysql.com/downloads/repo/yum/> and get the link of latest version of MySQL server.
 
 ```
 $ wgets http://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.rpm
@@ -199,88 +190,87 @@ $ sudo yum install -y mysql57-community-release-el7-7.noarch.rpm
 $ sudo rm mysql57-community-release-el7-7.noarch.rpm
 ```
 
-  You might need to grant permission by `$ sudo chmod 777 [your path]` if you faced permission denied issue. Now you need to start MySQL server.
+You might need to grant permission by `$ sudo chmod 777 [your path]` if you faced permission denied issue. Now you need to start MySQL server.
 
 ```
 $ sudo 
 ```
 
-  You can `$ sudo yum-complete-transaction -y mysql-server` if needed.
+You can `$ sudo yum-complete-transaction -y mysql-server` if needed.
 
-draft
-<http://www.cyberciti.biz/faq/how-to-install-mysql-under-rhel/>
-<http://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.rpm>
-<https://www.linode.com/docs/databases/mysql/how-to-install-mysql-on-centos-6>
+<s>
+draft:
 
-Data visualization, a book content page.
-<http://54.225.166.221/arifulmondal/creditscoring>
+- <http://www.cyberciti.biz/faq/how-to-install-mysql-under-rhel/>
+- <http://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.rpm>
+- <https://www.linode.com/docs/databases/mysql/how-to-install-mysql-on-centos-6>
 
+Data visualization, a book content page:
 
-## 4. Appendices
+- <http://54.225.166.221/arifulmondal/creditscoring>
+</s>
 
-  * [4.1 Documenting File Creation]
-  * [4.2 Versions' Log]
-  * [4.3 Speech and Blooper]
-  * [4.4 References]
-   
-   
-### 4.1 Documenting File Creation
-   
-  It's useful to record some information about how your file was created.
-   
-  * File creation date: 2016-03-05
-  * `r R.version.string`
-  * R version (short form): `r getRversion()`
-  * `rmarkdown` package version: `r packageVersion('rmarkdown')`
-  * File version: 1.0.0
-  * File latest updated date: `r Sys.Date()`
-  * Author Profile: [®γσ, Eng Lian Hu](https://rpubs.com/englianhu/ryoeng)
-  * GitHub: [Source Code](https://github.com/scibrokes/analyse-and-forecast-the-revenue-profit-and-loss-of-sports-bookmakers)
-  * Additional session information
-  
-```{r info, echo=FALSE, results='asis'}
-lubridate::now()
-devtools::session_info()$platform
-Sys.info()
+<span style='color:red'>**Remarks: ** <http://rstudio.cloud> ease the users.</span>
+
+# Appendix
+
+## Documenting File Creation 
+
+It's useful to record some information about how your file was created.
+
+- File creation date: 016-03-05
+- File latest updated date: `r lubridate::today('Asia/Tokyo')`
+- `r R.version.string`
+- R version (short form): `r getRversion()`
+- [**rmarkdown** package](https://github.com/rstudio/rmarkdown) version: `r packageVersion('rmarkdown')`
+- File version: 1.0.1
+- Author Profile: [®γσ, Eng Lian Hu](https://beta.rstudioconnect.com/content/3091/ryo-eng.html)
+- GitHub: [Source Code](https://github.com/scibrokes/analyse-and-forecast-the-revenue-profit-and-loss-of-sports-bookmakers)
+- Additional session information:
+
+```{r info, echo=FALSE, warning=FALSE, results='asis'}
+suppressMessages(require('dplyr', quietly = TRUE))
+suppressMessages(require('formattable', quietly = TRUE))
+suppressMessages(require('knitr', quietly = TRUE))
+suppressMessages(require('kableExtra', quietly = TRUE))
+
+sys1 <- devtools::session_info()$platform %>% 
+  unlist %>% data.frame(Category = names(.), session_info = .)
+rownames(sys1) <- NULL
+
+sys1 %<>% rbind(., data.frame(
+  Category = 'Current time', 
+  session_info = paste(as.character(lubridate::now('Asia/Tokyo')), 'JST'))) %>% 
+  dplyr::filter(Category != 'os')
+
+sys2 <- data.frame(Sys.info()) %>% mutate(Category = rownames(.)) %>% .[2:1]
+names(sys2)[2] <- c('Sys.info')
+rownames(sys2) <- NULL
+
+cbind(sys1, sys2) %>% 
+  kable(caption = 'Additional session information:') %>% 
+  kable_styling(bootstrap_options = c('striped', 'hover', 'condensed', 'responsive'))
+
+rm(sys1, sys2)
 ```
-   
-   
-### 4.2 Versions' Log
-   
- - File version: 1.0.0
- - file created
- - ...
- - File version: 1.0.1
- - ...
- - File version: 1.0.2 - *"2015-11-22 09:41:49 JST"*
-   - ...
-   
-   
-### 4.3 Speech and Blooper
-   
- There are quite some errors when I **knit HTML**:
-     
-  * ...
-  * ...
-   
-   
-### 4.4 References
 
-####  Reference for industry knowdelege and academic research portion for the paper.
+## Reference
+
+###  Reference for industry knowdelege and academic research portion for the paper.
   
-  1) []()
-  2) [Mark Summerfield and Wade Loo (2010) - *Online Gaming - A Gamble or a Sure Bet?*](https://www.kpmg.com/EU/en/Documents/Online-Gaming.pdf)
-  3) [Sports betting and advertising AGRC Discussion Paper (No.4 November 2014) - *The growth of sports betting in Australia*](https://aifs.gov.au/agrc/publications/sports-betting-and-advertising/growth-sports-betting-australia)
-  4) [Jeremy Sandford & Paul Shea (2011) - *Optimal setting of point spreads*](http://gatton.uky.edu/faculty/sandford/chicken.pdf)
+01) []()
+02) [Mark Summerfield and Wade Loo (2010) - *Online Gaming - A Gamble or a Sure Bet?*](https://www.kpmg.com/EU/en/Documents/Online-Gaming.pdf)
+03) [Sports betting and advertising AGRC Discussion Paper (No.4 November 2014) - *The growth of sports betting in Australia*](https://aifs.gov.au/agrc/publications/sports-betting-and-advertising/growth-sports-betting-australia)
+04) [Jeremy Sandford & Paul Shea (2011) - *Optimal setting of point spreads*](http://gatton.uky.edu/faculty/sandford/chicken.pdf)
 
-####  Reference for technical research on programming and coding portion for the paper.
-  
-  4) [E-Commerce Retail Sales](https://datamarket.com/data/set/1kcw/e-commerce-retail-sales#!ds=1kcw&display=line)
-  5) [Justin Ellingwood (2013) - *How To Create and Manage Databases in MySQL and MariaDB on a Cloud Server*](https://www.digitalocean.com/community/tutorials/how-to-create-and-manage-databases-in-mysql-and-mariadb-on-a-cloud-server)
-  6) [Etel Sverdlov (2012) - *A Basic MySQL Tutorial*](https://www.digitalocean.com/community/tutorials/a-basic-mysql-tutorial)
-  7) [Etel Sverdlov (2012) - *How To Create a New User and Grant Permissions in MySQL*](https://www.digitalocean.com/community/tutorials/how-to-create-a-new-user-and-grant-permissions-in-mysql)
-  8) http://shinyapps.stat.ubc.ca/r-graph-catalog/
-     
-**Powered by - Copyright© Intellectual Property Rights of <img src='figure/oda-army.jpg' width='24'> [Scibrokes®](http://www.scibrokes.com)個人の経営企業**
+###  Reference for technical research on programming and coding portion for the paper.
 
+01) [E-Commerce Retail Sales](https://datamarket.com/data/set/1kcw/e-commerce-retail-sales#!ds=1kcw&display=line)
+02) [Justin Ellingwood (2013) - *How To Create and Manage Databases in MySQL and MariaDB on a Cloud Server*](https://www.digitalocean.com/community/tutorials/how-to-create-and-manage-databases-in-mysql-and-mariadb-on-a-cloud-server)
+03) [Etel Sverdlov (2012) - *A Basic MySQL Tutorial*](https://www.digitalocean.com/community/tutorials/a-basic-mysql-tutorial)
+04) [Etel Sverdlov (2012) - *How To Create a New User and Grant Permissions in MySQL*](https://www.digitalocean.com/community/tutorials/how-to-create-a-new-user-and-grant-permissions-in-mysql)
+05) [R Graph Catalog](http://shinyapps.stat.ubc.ca/r-graph-catalog/)
 
+---
+
+**Powered by - Copyright® Intellectual Property Rights of <img src='www/oda-army2.jpg' width='24'> [Scibrokes®](http://www.scibrokes.com)個人の経営企業**

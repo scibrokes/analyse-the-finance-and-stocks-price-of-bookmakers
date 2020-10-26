@@ -31,6 +31,11 @@ Gaming is a large and economically important industry. Much research focuses on 
 - Analyse the revenue and profit of unnonymous bookmakers' products (due to confidential and privacy issue) in gambling market.
 - Analyse the revenue and profit as well as the stocks price of Public Listed European bookmakers.
 
+Below article using `flexdashboard` for interactive report or interacitive data visualization.
+
+- [R shiny flexdashboard — combining reactive elements, editable DT datatable, and save to file](https://stackoverflow.com/questions/53095503/r-shiny-flexdashboard-combining-reactive-elements-editable-dt-datatable-and)
+- [flexdashboard-highcharter-example](https://github.com/jbkunst/flexdashboard-highcharter-examples)
+
 ```{r read-data-summary-table, echo=FALSE, results='asis'}
 ## Read the datasets
 

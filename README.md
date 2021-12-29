@@ -1,8 +1,8 @@
 # Corporate Finance Analysis
 
-## Corporate Finance Analysis
+## Corporate Finance Analysis I
 
-[**Corporate Finance Analysis I** - *Analyse and forecast the revenue of corporates and also stocks price*] analyse the asset and revenue of sportsbookmakers.
+**Corporate Finance Analysis I** - *Analyse and forecast the revenue of corporates and also stocks price* analyse the asset and revenue of sportsbookmakers.
 
 [スポーツ.賭け屋（ブックメーカー）の評価レーダー妖怪図](https://rpubs.com/englianhu/bookmakers-ranking) gather the bookmakers rating information via [Bookmakersranking.com](http://www.bookmakersranking.com/bookmakers_ranking) and plot radar chart:
 
@@ -16,7 +16,9 @@ The paper also breakdown the World Largest Illegal `anonymous` sportsbookmaker f
 | Singbet 1 |  161347820789	|   53759963 |   37711892002 |  -476684554 | -1.26% |
 | Singbet 2 |  737526788139	|  336847532 |  160376774173 | -2858068415 | -1.78% |
 
-[**Corporate Finance Analysis II** - *Analyse the Finance and Stocks Price of Bookmakers*] analyse the stock price of sportsbookmakers.
+## Corporate Finance Analysis II
+
+**Corporate Finance Analysis II** - *Analyse the Finance and Stocks Price of Bookmakers* analyse the stock price of sportsbookmakers.
 
 # Reference
 
@@ -29,4 +31,4 @@ The paper also breakdown the World Largest Illegal `anonymous` sportsbookmaker f
 
 ---
 
-**Powered by - Copyright® Intellectual Property Rights of <img src='www/oda-army2.jpg' width='24'> [Scibrokes®](http://www.scibrokes.com)個人の経営企業**
+<span style='color:RoyalBlue'>**Powered by - Copyright® Intellectual Property Rights of [<img src="www/Scibrokes.png" width="14"/> Sςιβrοκεrs Trαdιηg®](http://www.scibrokes.com) 個人の経営企業**</span>
